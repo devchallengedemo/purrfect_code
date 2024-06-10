@@ -13,6 +13,7 @@ limitations under the License.
 */
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,10 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    var widthOffset = width * 0.66;
+    var heightOffset = height * 0.5;
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -37,8 +42,9 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children:[
+            SizedBox(height: heightOffset),
             Container(
-              width: 600,
+              width: min(widthOffset, 600),
               height: 40,
               color: Colors.black54,
               child: TextField(
