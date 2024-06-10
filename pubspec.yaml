@@ -1,0 +1,55 @@
+name: purrfect_push
+description: "A Flutter game by Google for Developers"
+publish_to: 'none'
+version: 0.9.0+27
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  dart_quill_delta: ^9.3.0
+  device_info_plus: ^9.0.2
+  envied: ^0.5.3
+  flame: ^1.16.0
+  flame_audio: ^2.10.1
+  flutter:
+    sdk: flutter
+  flutter_code_editor: ^0.3.1
+  flutter_highlight: ^0.7.0
+  flutter_keyboard_visibility: ^6.0.0
+  google_fonts: ^6.2.1
+  highlight: ^0.7.0
+  js: ^0.7.1
+  logger: ^2.0.2+1
+  mocktail: ^1.0.3
+  path: ^1.8.3
+  provider: ^6.1.1
+  super_clipboard: ^0.8.5
+  url_launcher: ^6.0.12
+  web: ^0.5.1
+
+dependency_overrides:
+  js: ^0.6.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.8
+  envied_generator: ^0.5.3
+  test: ^1.24.9
+
+flutter:
+  uses-material-design: true
+  fonts:
+  - family: ptmono
+    fonts:
+    - asset: fonts/ptmono-regular.ttf
+  assets:
+    - assets/
+    - assets/api/
+    - assets/audio/
+    - assets/level_base/
+    - assets/level_visual/
+    - assets/images/
+    - assets/ui_images/
