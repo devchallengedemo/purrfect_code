@@ -25,34 +25,54 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('First Screen'),
-      ),
-      body: Center(
+      body: Container(
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/ui_images/purrfect_push_splash.png'),
+            fit: BoxFit.fitHeight,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children:[
-            SizedBox(
+            Container(
               width: 600,
               height: 40,
+              color: Colors.black54,
               child: TextField(
-                controller: textController,
-                autocorrect: false,
-                enableSuggestions: false,
-                decoration: const InputDecoration(
-                  labelText: 'Enter Password',
+                  controller: textController,
+                  autocorrect: false,
+                  enableSuggestions: false,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter Password',
+                  ),
+                  obscureText: true,
                 ),
-                obscureText: true,
               ),
-            ),
             const SizedBox(height:40),
-            ElevatedButton(
-            onPressed: () {
+            OutlinedButton(
+              style:  ButtonStyle(
+                  backgroundColor:
+                    WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.disabled)) {
+                    return Colors.transparent;
+                  }
+                  return Colors.black54;
+                }),
+                  overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return Colors.greenAccent;
+                  }
+                  return Colors.black54;
+                }),
+              ),
+              onPressed: () {
                   //Navigator.pushNamed(context, 'game');
                   _validatePassword(textController.text, context);
-              },
-              child: const Text('Launch screen'),
+                },
+              child: const Text('Play Purrfect Push'),
             ),
           ],
         ),
