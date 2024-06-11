@@ -58,27 +58,42 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             const SizedBox(height:40),
-            OutlinedButton(
-              style:  ButtonStyle(
+            SizedBox(
+              width: 300.0,
+              height: 50.0,
+              child: OutlinedButton(
+                style:  ButtonStyle(
+                  side: WidgetStateProperty.all(const BorderSide(
+                    color: Colors.black,
+                    width: 2.0,
+                    style: BorderStyle.solid)),
                   backgroundColor:
                     WidgetStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(WidgetState.disabled)) {
-                    return Colors.transparent;
-                  }
-                  return Colors.black54;
-                }),
+                      if (states.contains(WidgetState.disabled)) {
+                        return Colors.transparent;
+                      }
+                      return Colors.lightBlue;
+                    }
+                  ),
                   overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(WidgetState.pressed)) {
-                    return Colors.greenAccent;
+                    if (states.contains(WidgetState.pressed)) {
+                      return Colors.lightBlue;
+                    }
+                    return Colors.lightBlue;
                   }
-                  return Colors.black54;
-                }),
-              ),
-              onPressed: () {
-                  //Navigator.pushNamed(context, 'game');
-                  _validatePassword(textController.text, context);
-                },
-              child: const Text('Play Purrfect Push'),
+                  ),
+                ),
+                onPressed: () {
+                    //Navigator.pushNamed(context, 'game');
+                    _validatePassword(textController.text, context);
+                  },
+                child: const Text(
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24.0,
+                  ),
+                  'Play Purrfect Push'),
+                ),
             ),
           ],
         ),
