@@ -15,7 +15,9 @@ limitations under the License.
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 import '../log/log.dart';
 
@@ -29,6 +31,9 @@ class SplashScreen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     var widthOffset = width * 0.66;
     var heightOffset = height * 0.5;
+    var maxBoxHeight = 280.0;
+    var calculatedHeight = min(maxBoxHeight, MediaQuery.of(context).size.height * 0.3);
+    var calculatedFontSize = 24.0 * (calculatedHeight/maxBoxHeight);
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -44,7 +49,7 @@ class SplashScreen extends StatelessWidget {
           children:[
             SizedBox(height: heightOffset),
             Container(
-              width: min(widthOffset, 600),
+              width: min(widthOffset, 500),
               height: 40,
               color: Colors.black54,
               child: TextField(
@@ -58,42 +63,69 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             const SizedBox(height:40),
-            SizedBox(
-              width: 300.0,
-              height: 50.0,
-              child: OutlinedButton(
-                style:  ButtonStyle(
-                  side: WidgetStateProperty.all(const BorderSide(
-                    color: Colors.black,
-                    width: 2.0,
-                    style: BorderStyle.solid)),
-                  backgroundColor:
-                    WidgetStateProperty.resolveWith<Color>((states) {
-                      if (states.contains(WidgetState.disabled)) {
-                        return Colors.transparent;
-                      }
-                      return Colors.lightBlue;
-                    }
-                  ),
-                  overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
-                    if (states.contains(WidgetState.pressed)) {
-                      return Colors.lightBlue;
-                    }
-                    return Colors.lightBlue;
-                  }
-                  ),
+            Container(
+              width: 500,
+              height: calculatedHeight,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.black, 
+                  width: 2,
                 ),
-                onPressed: () {
-                    //Navigator.pushNamed(context, 'game');
-                    _validatePassword(textController.text, context);
-                  },
-                child: const Text(
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24.0,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                children: <Widget> [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24.0,24.0,24.0,8.0),
+                  child:
+                    Text(
+'''Purrfect Push is a multi-level coding challenge where developers program a robot to efficiently move boxes with cats to safety, ephasizing code efficiency.
+''',
+                        style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: calculatedFontSize,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  'Play Purrfect Push'),
-                ),
+                  OutlinedButton(
+                      style:  ButtonStyle(
+                        side: WidgetStateProperty.all(const BorderSide(
+                          color: Colors.black,
+                          width: 2.0,
+                          style: BorderStyle.solid)),
+                        backgroundColor:
+                          WidgetStateProperty.resolveWith<Color>((states) {
+                            if (states.contains(WidgetState.disabled)) {
+                              return Colors.transparent;
+                            }
+                            return Colors.lightBlue;
+                          }
+                        ),
+                        overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
+                          if (states.contains(WidgetState.pressed)) {
+                            return Colors.lightBlue;
+                          }
+                          return Colors.lightBlue;
+                        }
+                        ),
+                      ),
+                      onPressed: () {
+                          //Navigator.pushNamed(context, 'game');
+                          _validatePassword(textController.text, context);
+                        },
+                      child: const Text(
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 24.0,
+                        ),
+                        'Play Purrfect Push'
+                      ),
+                    ),
+                ],
+              ),
             ),
           ],
         ),
