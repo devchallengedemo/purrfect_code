@@ -15,10 +15,7 @@ limitations under the License.
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-
 import '../log/log.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -141,9 +138,17 @@ class SplashScreen extends StatelessWidget {
       Navigator.pushNamed(context, 'Z2FtZQ==');
     } else {
       showDialog(
+        barrierColor: Colors.black87,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: const RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))
+            ),
             title: const Text('Invalid Password'),
             actions: <Widget>[
               TextButton(

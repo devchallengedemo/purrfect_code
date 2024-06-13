@@ -83,6 +83,7 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
           context,
           'Incomplete',
           'Sorry, You have not completed the level. Try again to win the level badge!',
+          true,
         );
       }
     });
@@ -202,6 +203,7 @@ activateTeleporter();
                 context,
                 'Restarted',
                 'You\'ve chosen to restart the level, you can also skip ahead from here',
+                false,
               );
               break;
             case 2:
@@ -288,7 +290,16 @@ activateTeleporter() //Call when cats are in position''',
     _setAppStateLoaded();
 
     var firstButton = appState.getLevel() == 1
-        ? const Spacer(flex: 1)
+        ? OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Colors.white24)
+            ),
+            child: const Text('Previous Level',
+              style: TextStyle(
+                color: Colors.white24,
+              )),
+            onPressed: () {},
+          )
         : OutlinedButton(
             child: const Text('Previous Level'),
             onPressed: () {
@@ -303,7 +314,15 @@ activateTeleporter() //Call when cats are in position''',
           );
 
     var thirdButton = appState.getLevel() == appState.lastLevel
-        ? const Spacer(flex: 1)
+        ? OutlinedButton(
+            style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: Colors.white24)),
+            child: const Text('Next Level',
+                style: TextStyle(
+                  color: Colors.white24,
+                )),
+            onPressed: () {},
+          )
         : OutlinedButton(
             child: const Text('Next Level'),
             onPressed: () {
@@ -330,10 +349,19 @@ activateTeleporter() //Call when cats are in position''',
     };
 
     showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black54,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          titlePadding: const EdgeInsets.all(10.0),
+          shape: const RoundedRectangleBorder(
+            side: BorderSide(
+              color: Colors.white54,
+              width: 3.0,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(20))
+          ),
+          titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           title: Center(
             child: Text(title),
           ),
@@ -380,7 +408,6 @@ activateTeleporter() //Call when cats are in position''',
                 children: <Widget>[
                   InkWell(
                     onTap: () async {
-                      // Handle badge claim
                       var badgeUri = Uri.parse(badgeUrl);
                       if (await canLaunchUrl(badgeUri)) {
                         await launchUrl(badgeUri);
@@ -397,9 +424,8 @@ activateTeleporter() //Call when cats are in position''',
                   Center(
                     child: TextButton(
                       child: const Text(
-                          'Add badge to your Google Developer profile'),
+                          'Add badge to your Google Developer Profile'),
                       onPressed: () async {
-                        // Handle badge claim
                         Uri badgeUri = Uri.parse(badgeUrl);
                         if (await canLaunchUrl(badgeUri)) {
                           await launchUrl(badgeUri);
@@ -447,9 +473,18 @@ activateTeleporter() //Call when cats are in position''',
     );
   }
 
-  void _showIncomplete(BuildContext context, String title, String body) {
-    var firstButton = appState.getLevel() == 1
-        ? const Spacer(flex: 1)
+  void _showIncomplete(BuildContext context, String title, String body, bool failed) {
+        var firstButton = appState.getLevel() == 1
+        ? OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Colors.white24)
+            ),
+            child: const Text('Previous Level',
+              style: TextStyle(
+                color: Colors.white24,
+              )),
+            onPressed: () {},
+          )
         : OutlinedButton(
             child: const Text('Previous Level'),
             onPressed: () {
@@ -464,7 +499,15 @@ activateTeleporter() //Call when cats are in position''',
           );
 
     var thirdButton = appState.getLevel() == appState.lastLevel
-        ? const Spacer(flex: 1)
+        ? OutlinedButton(
+            style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: Colors.white24)),
+            child: const Text('Next Level',
+                style: TextStyle(
+                  color: Colors.white24,
+                )),
+            onPressed: () {},
+          )
         : OutlinedButton(
             child: const Text('Next Level'),
             onPressed: () {
@@ -477,10 +520,19 @@ activateTeleporter() //Call when cats are in position''',
           );
 
     showDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black54,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          titlePadding: const EdgeInsets.all(10.0),
+          shape: const RoundedRectangleBorder(
+            side: BorderSide(
+              color: Colors.white54,
+              width: 3.0,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(20))
+          ),
+          titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           title: Center(
             child: Text(title),
           ),
@@ -488,7 +540,7 @@ activateTeleporter() //Call when cats are in position''',
             mainAxisSize: MainAxisSize
                 .min, // Make the column only as big as its children need it to be
             children: <Widget>[
-              Image.asset(modalBannerFailedPath),
+              Image.asset(failed ? modalBannerFailedPath : modalBannerTutorialPath),
               const SizedBox(height: 10),
               Container(
                 width: double
@@ -544,11 +596,20 @@ activateTeleporter() //Call when cats are in position''',
   }
 
   void _showTutorial(
-      BuildContext context, String title, String body, String headerImagePath) {
+    BuildContext context, String title, String body, String headerImagePath) {
     showDialog(
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            side: BorderSide(
+              color: Colors.white54,
+              width: 3.0,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(20))
+          ),
           titlePadding: const EdgeInsets.all(10.0),
           title: Center(
             child: Text(title),

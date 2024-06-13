@@ -57,9 +57,9 @@ class _ThreeItemViewState extends State<MultiView>
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
 
-    IconData icon = appState.state == AppCurrentState.running
-        ? Icons.block_outlined
-        : Icons.play_arrow_outlined;
+    String codeTxt = appState.state == AppCurrentState.running
+        ? 'Running...'
+        : 'Run Code';
     const double lowerBarHeight = 72;
     double lowerBarInset = width / 16.0;
     double gameViewWidth = 256;
@@ -147,7 +147,7 @@ class _ThreeItemViewState extends State<MultiView>
                                       widget.callback(1);
                                     },
                                     child:
-                                        const Icon(Icons.restart_alt_outlined),
+                                        const Text('Restart'),
                                   ),
                                 ),
                                 Tab(
@@ -156,13 +156,14 @@ class _ThreeItemViewState extends State<MultiView>
                                     onPressed: () {
                                       _runCode();
                                     },
-                                    child: Icon(icon),
+                                    child: Text(codeTxt),
                                   ),
                                 ),
                               ],
                             ),
                           ),
                           body: TabBarView(
+                            physics: const NeverScrollableScrollPhysics(),
                             controller: _tabController,
                             children: [
                               SizedBox(
@@ -206,7 +207,7 @@ class _ThreeItemViewState extends State<MultiView>
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
                     child: TextButton(
-                      child: const Text('Help'),
+                      child: const Text('API Reference'),
                       onPressed: () {
                         widget.callback(2);
                       },
