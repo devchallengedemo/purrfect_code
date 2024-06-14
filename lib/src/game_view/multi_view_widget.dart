@@ -350,7 +350,7 @@ activateTeleporter() //Call when cats are in position''',
 
     showDialog(
       barrierDismissible: false,
-      barrierColor: Colors.black54,
+      barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -526,7 +526,7 @@ activateTeleporter() //Call when cats are in position''',
 
     showDialog(
       barrierDismissible: false,
-      barrierColor: Colors.black54,
+      barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -609,7 +609,7 @@ activateTeleporter() //Call when cats are in position''',
     BuildContext context, String title, String body, String headerImagePath) {
     showDialog(
       barrierDismissible: true,
-      barrierColor: Colors.black54,
+      barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(

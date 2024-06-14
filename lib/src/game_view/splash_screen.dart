@@ -138,7 +138,7 @@ class SplashScreen extends StatelessWidget {
       Navigator.pushNamed(context, 'Z2FtZQ==');
     } else {
       showDialog(
-        barrierColor: Colors.black87,
+        barrierColor: const Color.fromARGB(168,120,120,120),
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
