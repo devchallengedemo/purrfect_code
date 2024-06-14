@@ -201,8 +201,8 @@ activateTeleporter();
             case 1:
               _showIncomplete(
                 context,
-                'Restarted',
-                'You\'ve chosen to restart the level, you can also skip ahead from here',
+                'Restart Level',
+                'You can restart the level, or skip ahead from here.',
                 false,
               );
               break;
@@ -362,8 +362,13 @@ activateTeleporter() //Call when cats are in position''',
             borderRadius: BorderRadius.all(Radius.circular(20))
           ),
           titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          title: Center(
-            child: Text(title),
+          title: Align(
+            alignment: const Alignment(0.0, -2.0),
+            child: Text(
+              title,
+              textHeightBehavior: const TextHeightBehavior(
+                  leadingDistribution: TextLeadingDistribution.even),
+            ),
           ),
           content: Column(
             mainAxisSize: MainAxisSize
@@ -533,8 +538,13 @@ activateTeleporter() //Call when cats are in position''',
             borderRadius: BorderRadius.all(Radius.circular(20))
           ),
           titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          title: Center(
-            child: Text(title),
+          title: Align(
+            alignment: const Alignment(0.0, -2.0),
+            child: Text(
+              title,
+              textHeightBehavior: const TextHeightBehavior(
+                  leadingDistribution: TextLeadingDistribution.even),
+            ),
           ),
           content: Column(
             mainAxisSize: MainAxisSize
@@ -611,8 +621,11 @@ activateTeleporter() //Call when cats are in position''',
             borderRadius: BorderRadius.all(Radius.circular(20))
           ),
           titlePadding: const EdgeInsets.all(10.0),
-          title: Center(
-            child: Text(title),
+          title: Align(
+            alignment: const Alignment(0.0, -2.0),
+            child: Text(title, 
+              textHeightBehavior: const TextHeightBehavior(leadingDistribution: TextLeadingDistribution.even),
+            ),
           ),
           content: Column(
             mainAxisSize: MainAxisSize
