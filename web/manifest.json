@@ -1,11 +1,11 @@
 {
-    "name": "purrfect_push",
-    "short_name": "purrfect_push",
+    "name": "purrfect_code",
+    "short_name": "purrfect_code",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Purrfect Push, a Coding Game By Google For Developers",
+    "description": "Purrfect Code, a Coding Game By Google For Developers",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

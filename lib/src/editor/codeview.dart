@@ -40,7 +40,7 @@ class CodeView extends StatelessWidget {
             minHeight: viewportConstraints.maxHeight,
           ),
           child: CodeTheme(
-            data: CodeThemeData(styles: purrfectPushTheme),
+            data: CodeThemeData(styles: purrfectCodeTheme),
             child: SingleChildScrollView(
               child: CodeField(
                 textStyle:

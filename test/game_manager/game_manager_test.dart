@@ -13,9 +13,9 @@ limitations under the License.
 */
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:purrfect_push/src/game_manager/game_manager.dart';
-import 'package:purrfect_push/src/game_manager/level_data.dart';
-import 'package:purrfect_push/src/helpers/enums.dart';
+import 'package:purrfect_code/src/game_manager/game_manager.dart';
+import 'package:purrfect_code/src/game_manager/level_data.dart';
+import 'package:purrfect_code/src/helpers/enums.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

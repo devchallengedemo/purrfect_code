@@ -50,8 +50,8 @@ class MultiViewWidget extends StatefulWidget {
 
 class _MultiviewWidgetState extends State<MultiViewWidget> {
   bool setupComplete = false;
-  String modalBannerFailedPath = 'assets/ui_images/purrfect_push_failure.png';
-  String modalBannerTutorialPath = 'assets/ui_images/purrfect_push_tutorial.png';
+  String modalBannerFailedPath = 'assets/ui_images/purrfect_code_failure.png';
+  String modalBannerTutorialPath = 'assets/ui_images/purrfect_code_tutorial.png';
 
   late Function(int) callback;
 
@@ -105,7 +105,7 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
         widget.gameManager.resetLevel();
 
         var txt = switch (appState.getLevel()) {
-          1 => '''// Welcome to Purrfect Push!
+          1 => '''// Welcome to Purrfect Code!
 // Write JavaScript code here using the functions below
 // to help the robot get the cats home by pushing them 
 // to the teleporter plates. The first solution is below,
@@ -127,7 +127,7 @@ moveEast();
 moveSouth();
 //moveSouth();\n
 activateTeleporter();''',
-          2 => '''// In Purrfect Push Level 2, the solution involves
+          2 => '''// In Purrfect Code Level 2, the solution involves
 // repeating blocks of code. Use the functions below 
 // to solve the puzzle.
 //Move one space north
@@ -140,7 +140,7 @@ moveEast();\n
 moveWest();\n
 //Activate the teleporter to solve the level
 activateTeleporter();''',
-          3 => '''// In Purrfect Push Level 3, try using JavaScript functions
+          3 => '''// In Purrfect Code Level 3, try using JavaScript functions
 // to solve the puzzle. 
 //Move one space north
 moveNorth();\n
@@ -152,7 +152,7 @@ moveEast();\n
 moveWest();\n
 //Activate the teleporter to solve the level
 activateTeleporter();''',
-          4 => '''// In Purrfect Push Level 4,  try passing unique values 
+          4 => '''// In Purrfect Code Level 4,  try passing unique values 
 //to your functions to solve the puzzle.
 
 //Move one space north
@@ -166,7 +166,7 @@ moveWest();\n
 //Activate the teleporter to solve the level
 activateTeleporter();
 ''',
-          5 => '''// In Purrfect Push Level 5,  the solution requires
+          5 => '''// In Purrfect Code Level 5,  the solution requires
 // you to combine the skills you've learned thus far!
 // Use JavaScript to solve the puzzle.\n 
 //Move one space north
@@ -335,8 +335,8 @@ activateTeleporter() //Call when cats are in position''',
           );
 
     String mainImageAsset = switch (appState.getLevel()) {
-      5 => 'assets/ui_images/purrfect_push_game_victory.png',
-      _ => 'assets/ui_images/purrfect_push_level_victory.png',
+      5 => 'assets/ui_images/purrfect_code_game_victory.png',
+      _ => 'assets/ui_images/purrfect_code_level_victory.png',
     };
 
     String badgeImageAsset = switch (appState.getLevel()) {

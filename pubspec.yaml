@@ -1,4 +1,4 @@
-name: purrfect_push
+name: purrfect_code
 description: "A Flutter game by Google for Developers"
 publish_to: 'none'
 version: 0.9.0+27
@@ -7,9 +7,6 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  dart_quill_delta: ^9.3.0
-  device_info_plus: ^9.0.2
-  envied: ^0.5.3
   flame: ^1.16.0
   flame_audio: ^2.10.1
   flutter:
@@ -19,7 +16,6 @@ dependencies:
   flutter_keyboard_visibility: ^6.0.0
   google_fonts: ^6.2.1
   highlight: ^0.7.0
-  js: ^0.7.1
   logger: ^2.0.2+1
   mocktail: ^1.0.3
   path: ^1.8.3

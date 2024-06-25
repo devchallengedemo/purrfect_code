@@ -14,10 +14,10 @@ limitations under the License.
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:purrfect_push/src/api_module/game_api.dart';
-import 'package:purrfect_push/src/game_manager/game_manager.dart';
-import 'package:purrfect_push/src/game_view/splash_screen.dart';
-import 'package:purrfect_push/src/app.dart';
+import 'package:purrfect_code/src/api_module/game_api.dart';
+import 'package:purrfect_code/src/game_manager/game_manager.dart';
+import 'package:purrfect_code/src/game_view/splash_screen.dart';
+import 'package:purrfect_code/src/app.dart';
 
 class _MockGameManager extends Mock implements GameManager {}
 

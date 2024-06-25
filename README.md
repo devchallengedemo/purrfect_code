@@ -1,4 +1,4 @@
-# Purrfect Push
+# Purrfect Code
 
 A Sokoban Game you play by coding in JavaScript. Made by Google For Developers.
 
@@ -6,7 +6,7 @@ A Sokoban Game you play by coding in JavaScript. Made by Google For Developers.
 
 ## Play the game 🎮
 
-[Play directly](https://devchallengedemo.github.io/purrfect_push) in your desktop browser.
+[Play directly](https://devchallengedemo.github.io/purrfect_code) in your desktop browser.
 
 ## Getting Started 🚀
 
@@ -16,7 +16,7 @@ To run the game use the launch configuration in VSCode/Android Studio or use the
 $ flutter run -d chrome
 ```
 
-_\*Purrfect Push works best in Chrome
+_\*Purrfect Code works best in Chrome
 
 ---
 

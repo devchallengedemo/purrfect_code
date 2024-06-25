@@ -14,7 +14,7 @@ limitations under the License.
 
 import 'package:flutter/painting.dart';
 
-const purrfectPushTheme = {
+const purrfectCodeTheme = {
   'root': TextStyle(
     backgroundColor: Color(0xff41474c),
     color: Color(0xffd8d8d2),

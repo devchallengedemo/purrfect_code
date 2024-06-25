@@ -36,7 +36,7 @@ class SplashScreen extends StatelessWidget {
         alignment: Alignment.center,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/ui_images/purrfect_push_splash.png'),
+            image: AssetImage('assets/ui_images/purrfect_code_splash.png'),
             fit: BoxFit.fitHeight,
           ),
         ),
@@ -77,7 +77,7 @@ class SplashScreen extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(24.0,24.0,24.0,8.0),
                   child:
                     Text(
-'''Purrfect Push is a multi-level coding challenge where developers program a robot to efficiently move boxes with cats to safety, ephasizing code efficiency.
+'''Purrfect Code is a multi-level coding challenge where developers program a robot to efficiently move boxes with cats to safety, ephasizing code efficiency.
 ''',
                         style: TextStyle(
                         color: Colors.black,
@@ -118,7 +118,7 @@ class SplashScreen extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 24.0,
                         ),
-                        'Play Purrfect Push'
+                        'Play Purrfect Code'
                       ),
                     ),
                 ],
