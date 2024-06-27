@@ -4,8 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
-  irondash_engine_context
-  super_native_extensions
   url_launcher_windows
 )
 
