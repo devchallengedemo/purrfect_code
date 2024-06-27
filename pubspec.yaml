@@ -8,12 +8,11 @@ environment:
 
 dependencies:
   flame: ^1.16.0
-  flame_audio: ^2.10.1
+  flame_audio: ^2.10.2
   flutter:
     sdk: flutter
-  flutter_code_editor: ^0.3.1
+  flutter_code_editor: ^0.3.2
   flutter_highlight: ^0.7.0
-  flutter_keyboard_visibility: ^6.0.0
   google_fonts: ^6.2.1
   highlight: ^0.7.0
   logger: ^2.0.2+1
