@@ -22,7 +22,7 @@ endif
 	flutter create . --platform web
 
 	@echo "Building for web..."
-	flutter build web --base-href $(BASE_HREF) --wasm --profile --verbose --web-renderer canvaskit --no-tree-shake-icons
+	flutter build web --base-href $(BASE_HREF) --wasm --profile --verbose --no-tree-shake-icons
 
 	@echo "Deploying to git repository"
 	cd build/web && \
