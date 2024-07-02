@@ -29,8 +29,9 @@ class SplashScreen extends StatelessWidget {
     var widthOffset = width * 0.66;
     var heightOffset = height * 0.5;
     var maxBoxHeight = 280.0;
-    var calculatedHeight = min(maxBoxHeight, MediaQuery.of(context).size.height * 0.3);
-    var calculatedFontSize = 24.0 * (calculatedHeight/maxBoxHeight);
+    var calculatedHeight =
+        min(maxBoxHeight, MediaQuery.of(context).size.height * 0.3);
+    var calculatedFontSize = 24.0 * (calculatedHeight / maxBoxHeight);
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -43,43 +44,42 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children:[
+          children: [
             SizedBox(height: heightOffset),
             Container(
               width: min(widthOffset, 500),
               height: 40,
               color: Colors.black54,
               child: TextField(
-                  controller: textController,
-                  autocorrect: false,
-                  enableSuggestions: false,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Password',
-                  ),
-                  obscureText: true,
+                controller: textController,
+                autocorrect: false,
+                enableSuggestions: false,
+                decoration: const InputDecoration(
+                  labelText: 'Enter Password',
                 ),
+                obscureText: true,
               ),
-            const SizedBox(height:40),
+            ),
+            const SizedBox(height: 40),
             Container(
               width: 500,
               height: calculatedHeight,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
-                  color: Colors.black, 
+                  color: Colors.black,
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
-                children: <Widget> [
+                children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(24.0,24.0,24.0,8.0),
-                  child:
-                    Text(
-'''Purrfect Code is a multi-level coding challenge where developers program a robot to efficiently move boxes with cats to safety, ephasizing code efficiency.
+                    padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
+                    child: Text(
+                      '''Purrfect Code is a multi-level coding challenge where developers program a robot to efficiently move boxes with cats to safety, emphasizing code efficiency.
 ''',
-                        style: TextStyle(
+                      style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: calculatedFontSize,
@@ -88,39 +88,37 @@ class SplashScreen extends StatelessWidget {
                     ),
                   ),
                   OutlinedButton(
-                      style:  ButtonStyle(
-                        side: WidgetStateProperty.all(const BorderSide(
+                    style: ButtonStyle(
+                      side: WidgetStateProperty.all(const BorderSide(
                           color: Colors.black,
                           width: 2.0,
                           style: BorderStyle.solid)),
-                        backgroundColor:
+                      backgroundColor:
                           WidgetStateProperty.resolveWith<Color>((states) {
-                            if (states.contains(WidgetState.disabled)) {
-                              return Colors.transparent;
-                            }
-                            return Colors.lightBlue;
-                          }
-                        ),
-                        overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
-                          if (states.contains(WidgetState.pressed)) {
-                            return Colors.lightBlue;
-                          }
+                        if (states.contains(WidgetState.disabled)) {
+                          return Colors.transparent;
+                        }
+                        return Colors.lightBlue;
+                      }),
+                      overlayColor:
+                          WidgetStateProperty.resolveWith<Color>((states) {
+                        if (states.contains(WidgetState.pressed)) {
                           return Colors.lightBlue;
                         }
-                        ),
-                      ),
-                      onPressed: () {
-                          //Navigator.pushNamed(context, 'game');
-                          _validatePassword(textController.text, context);
-                        },
-                      child: const Text(
+                        return Colors.lightBlue;
+                      }),
+                    ),
+                    onPressed: () {
+                      //Navigator.pushNamed(context, 'game');
+                      _validatePassword(textController.text, context);
+                    },
+                    child: const Text(
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 24.0,
                         ),
-                        'Play Purrfect Code'
-                      ),
-                    ),
+                        'Play Purrfect Code'),
+                  ),
                 ],
               ),
             ),
@@ -130,25 +128,23 @@ class SplashScreen extends StatelessWidget {
     );
   }
 
-  void _validatePassword(String text, BuildContext context)
-  {
+  void _validatePassword(String text, BuildContext context) {
     final str = utf8.decode(base64.decode('OXFlaWJFS3JzVlZMMmppeWFpWWI='));
     logger.i('decoded string= $str, password= $text');
-    if(text == str) {
+    if (text == str) {
       Navigator.pushNamed(context, 'Z2FtZQ==');
     } else {
       showDialog(
-        barrierColor: const Color.fromARGB(168,120,120,120),
+        barrierColor: const Color.fromARGB(168, 120, 120, 120),
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             shape: const RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.white54,
-                width: 3.0,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(20))
-            ),
+                side: BorderSide(
+                  color: Colors.white54,
+                  width: 3.0,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(20))),
             title: const Text('Invalid Password'),
             actions: <Widget>[
               TextButton(
@@ -164,4 +160,3 @@ class SplashScreen extends StatelessWidget {
     }
   }
 }
-
