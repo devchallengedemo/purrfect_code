@@ -32,28 +32,17 @@
   <title>purrfect_code</title>
   <link rel="manifest" href="manifest.json">
 
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
-    });
-  </script>
+<script>
+  {{flutter_js}}
+  {{flutter_build_config}}
+  const searchParams = new URLSearchParams(window.location.search);
+  const forceCanvaskit = searchParams.get('force_canvaskit') === 'true';
+  const userConfig = forceCanvaskit ? {'renderer': 'canvaskit'} : {};
+  _flutter.loader.load({
+    config: userConfig,
+  });
+</script>
 </body>
 </html>
