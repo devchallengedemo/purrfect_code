@@ -13,6 +13,8 @@ limitations under the License.
 */
 
 import 'dart:async';
+import 'dart:js_interop';
+
 import 'package:web/web.dart' as web;
 
 class ImportJsLibraryWeb {
@@ -54,8 +56,8 @@ class ImportJsLibraryWeb {
     }
 
     for (var index = 0; index < head.children.length; index++) {
-      var element = head.children.item(index);
-      if (element.runtimeType != web.HTMLScriptElement) {
+      var element = head.children.item(index)!;
+      if (!element.isA<web.HTMLScriptElement>()) {
         continue;
       } else {
         var scriptElem = element as web.HTMLScriptElement;
