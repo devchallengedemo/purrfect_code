@@ -13,15 +13,17 @@ limitations under the License.
 */
 
 import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/animation.dart';
-import '../../app_state.dart';
-import '/src/sokoban_view/components/grided.dart';
-import '/src/log/log.dart';
+
 import '/src/helpers/enums.dart';
+import '/src/log/log.dart';
+import '/src/sokoban_view/components/grided.dart';
+import '../../app_state.dart';
 import 'box_shadow.dart';
 
 enum BoxState { closed, goalHit, open, teleport, complete }
@@ -65,12 +67,12 @@ class Box extends SpriteAnimationComponent
 
   @override
   Future<void> onLoad() async {
-    _audioPool = await FlameAudio.createPool('catscored.mp3',maxPlayers: 4);
+    _audioPool = await FlameAudio.createPool('catscored.mp3', maxPlayers: 4);
     await _loadAnimations().then((_) => {animation = _boxClosed});
 
     position.add(Vector2(
-        ((gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x),
-        ((gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y)));
+        (gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x,
+        (gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y));
     priority = getLayeredGridValue();
   }
 
@@ -89,7 +91,7 @@ class Box extends SpriteAnimationComponent
     );
 
     var random = Random();
-    spriteIndex = (random.nextInt(5));
+    spriteIndex = random.nextInt(5);
 
     _boxClosed =
         boxSpriteSheet.createAnimation(row: spriteIndex, stepTime: 0.1, to: 1);
@@ -126,7 +128,7 @@ class Box extends SpriteAnimationComponent
     if (boxState == BoxState.closed) {
       if (_timer > _nextIdle) {
         if (animation != _boxClosed) {
-          Random random = Random();
+          var random = Random();
           var randomNumber = random.nextDouble() * 6.0;
           _nextIdle = 6.0 + randomNumber;
           animation = _boxClosed;
@@ -134,7 +136,7 @@ class Box extends SpriteAnimationComponent
           _timer = 0;
         } else {
           _timer = 0;
-          Random random = Random();
+          var random = Random();
           var randomNumber = random.nextInt(2);
           animation = randomNumber == 0 ? _idle1Anim : _idle2Anim;
           shadow.setAnimation(randomNumber == 0 ? '_idle1Anim' : '_idle2Anim');

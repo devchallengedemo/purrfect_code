@@ -17,13 +17,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:highlight/languages/javascript.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '/src/app_state.dart';
-import '/src/game_manager/level_data.dart';
 import '/src/editor/editor.dart';
-import '/src/game_manager/level_tile.dart';
 import '/src/game_manager/game_manager.dart';
-import '/src/sokoban_view/sokoban_game.dart';
+import '/src/game_manager/level_data.dart';
 import '/src/log/log.dart';
+import '/src/sokoban_view/sokoban_game.dart';
 import 'multi_view.dart';
 
 class MultiViewWidget extends StatefulWidget {
@@ -45,27 +45,28 @@ class MultiViewWidget extends StatefulWidget {
   });
 
   @override
-  createState() => _MultiviewWidgetState();
+  State<MultiViewWidget> createState() => _MultiviewWidgetState();
 }
 
 class _MultiviewWidgetState extends State<MultiViewWidget> {
   bool setupComplete = false;
   String modalBannerFailedPath = 'assets/ui_images/purrfect_code_failure.png';
-  String modalBannerTutorialPath = 'assets/ui_images/purrfect_code_tutorial.png';
+  String modalBannerTutorialPath =
+      'assets/ui_images/purrfect_code_tutorial.png';
 
-  late Function(int) callback;
+  late void Function(int) callback;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     widget.game = SokobanGame((value) {
-      int steps = widget.gameManager.steps;
-      int semicolons = widget.editor.getSemicolonCount();
-      int braces = widget.editor.getBracesCount();
-      int batteries = widget.gameManager.player!.getBatteryCount();
-      int score =
+      var steps = widget.gameManager.steps;
+      var semicolons = widget.editor.getSemicolonCount();
+      var braces = widget.editor.getBracesCount();
+      var batteries = widget.gameManager.player!.getBatteryCount();
+      var score =
           100 - (semicolons * 2) - (braces * 2) - steps + (batteries * 5);
-      String badgeUrl = 'https://www.google.com';
+      var badgeUrl = 'https://www.google.com';
       if (value) {
         _showModalWindow(
           context,
@@ -91,7 +92,7 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
   }
 
   @override
-  dispose() {
+  void dispose() {
     super.dispose();
   }
 
@@ -185,7 +186,7 @@ activateTeleporter();
         if (widget.editor.controller.text.isEmpty) {
           widget.editor.setText(txt);
         }
-        _loadLevelData(appState.getLevel(), () => _setAppStateLoaded());
+        _loadLevelData(appState.getLevel(), _setAppStateLoaded);
       }
       return Container();
     } else {
@@ -243,7 +244,8 @@ activateTeleporter() //Call when cats are in position''',
     setState(() => appState.setState(AppCurrentState.running));
   }
 
-  _loadLevelData(int level, Function() setAppDataLoaded) async {
+  Future<void> _loadLevelData(
+      int level, void Function() setAppDataLoaded) async {
     var path = switch (level) {
       1 => 'assets/level_base/level01.json',
       2 => 'assets/level_base/level02.json',
@@ -253,7 +255,7 @@ activateTeleporter() //Call when cats are in position''',
       _ => ''
     };
 
-    String response = await rootBundle.loadString(path);
+    var response = await rootBundle.loadString(path);
     if (response.isEmpty) {
       logger.e('Failed to load json data');
       return;
@@ -261,7 +263,7 @@ activateTeleporter() //Call when cats are in position''',
     var levelData = LevelData(response);
     var metaData = levelData.levelMetaData;
 
-    List<LevelTile> processedTiles = widget.gameManager
+    var processedTiles = widget.gameManager
         .processLevelTilesFromJson(levelData.levelArray.tiles);
 
     widget.gameManager.createLevel(
@@ -292,12 +294,11 @@ activateTeleporter() //Call when cats are in position''',
     var firstButton = appState.getLevel() == 1
         ? OutlinedButton(
             style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Colors.white24)
-            ),
+                side: const BorderSide(color: Colors.white24)),
             child: const Text('Previous Level',
-              style: TextStyle(
-                color: Colors.white24,
-              )),
+                style: TextStyle(
+                  color: Colors.white24,
+                )),
             onPressed: () {},
           )
         : OutlinedButton(
@@ -334,12 +335,12 @@ activateTeleporter() //Call when cats are in position''',
             },
           );
 
-    String mainImageAsset = switch (appState.getLevel()) {
+    var mainImageAsset = switch (appState.getLevel()) {
       5 => 'assets/ui_images/purrfect_code_game_victory.png',
       _ => 'assets/ui_images/purrfect_code_level_victory.png',
     };
 
-    String badgeImageAsset = switch (appState.getLevel()) {
+    var badgeImageAsset = switch (appState.getLevel()) {
       1 => 'assets/ui_images/level_1_badge.png',
       2 => 'assets/ui_images/level_2_badge.png',
       3 => 'assets/ui_images/level_3_badge.png',
@@ -348,19 +349,18 @@ activateTeleporter() //Call when cats are in position''',
       _ => 'assets/ui_images/level_1_badge.png',
     };
 
-    showDialog(
+    showDialog<void>(
       barrierDismissible: false,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.white54,
-              width: 3.0,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(20))
-          ),
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           title: Align(
             alignment: const Alignment(0.0, -2.0),
@@ -371,8 +371,8 @@ activateTeleporter() //Call when cats are in position''',
             ),
           ),
           content: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need it to be
+            // Make the column only as big as its children need it to be
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Image.asset(mainImageAsset),
               const SizedBox(height: 10),
@@ -417,7 +417,7 @@ activateTeleporter() //Call when cats are in position''',
                       if (await canLaunchUrl(badgeUri)) {
                         await launchUrl(badgeUri);
                       } else {
-                        throw 'Could not launch $badgeUrl';
+                        throw StateError('Could not launch $badgeUrl');
                       }
                     },
                     child: Image.asset(
@@ -431,11 +431,11 @@ activateTeleporter() //Call when cats are in position''',
                       child: const Text(
                           'Add badge to your Google Developer Profile'),
                       onPressed: () async {
-                        Uri badgeUri = Uri.parse(badgeUrl);
+                        var badgeUri = Uri.parse(badgeUrl);
                         if (await canLaunchUrl(badgeUri)) {
                           await launchUrl(badgeUri);
                         } else {
-                          throw 'Could not launch $badgeUrl';
+                          throw StateError('Could not launch $badgeUrl');
                         }
                       },
                     ),
@@ -478,16 +478,16 @@ activateTeleporter() //Call when cats are in position''',
     );
   }
 
-  void _showIncomplete(BuildContext context, String title, String body, bool failed) {
-        var firstButton = appState.getLevel() == 1
+  void _showIncomplete(
+      BuildContext context, String title, String body, bool failed) {
+    var firstButton = appState.getLevel() == 1
         ? OutlinedButton(
             style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Colors.white24)
-            ),
+                side: const BorderSide(color: Colors.white24)),
             child: const Text('Previous Level',
-              style: TextStyle(
-                color: Colors.white24,
-              )),
+                style: TextStyle(
+                  color: Colors.white24,
+                )),
             onPressed: () {},
           )
         : OutlinedButton(
@@ -524,19 +524,18 @@ activateTeleporter() //Call when cats are in position''',
             },
           );
 
-    showDialog(
+    showDialog<void>(
       barrierDismissible: false,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.white54,
-              width: 3.0,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(20))
-          ),
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           title: Align(
             alignment: const Alignment(0.0, -2.0),
@@ -547,10 +546,11 @@ activateTeleporter() //Call when cats are in position''',
             ),
           ),
           content: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need it to be
+            // Make the column only as big as its children need it to be
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Image.asset(failed ? modalBannerFailedPath : modalBannerTutorialPath),
+              Image.asset(
+                  failed ? modalBannerFailedPath : modalBannerTutorialPath),
               const SizedBox(height: 10),
               Container(
                 width: double
@@ -606,30 +606,31 @@ activateTeleporter() //Call when cats are in position''',
   }
 
   void _showTutorial(
-    BuildContext context, String title, String body, String headerImagePath) {
-    showDialog(
+      BuildContext context, String title, String body, String headerImagePath) {
+    showDialog<void>(
       barrierDismissible: true,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.white54,
-              width: 3.0,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(20))
-          ),
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           titlePadding: const EdgeInsets.all(10.0),
           title: Align(
             alignment: const Alignment(0.0, -2.0),
-            child: Text(title, 
-              textHeightBehavior: const TextHeightBehavior(leadingDistribution: TextLeadingDistribution.even),
+            child: Text(
+              title,
+              textHeightBehavior: const TextHeightBehavior(
+                  leadingDistribution: TextLeadingDistribution.even),
             ),
           ),
           content: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need it to be
+            // Make the column only as big as its children need it to be
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Image.asset(headerImagePath),
               const SizedBox(height: 10),

@@ -16,6 +16,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+
 import '../log/log.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -134,7 +135,7 @@ class SplashScreen extends StatelessWidget {
     if (text == str) {
       Navigator.pushNamed(context, 'Z2FtZQ==');
     } else {
-      showDialog(
+      showDialog<void>(
         barrierColor: const Color.fromARGB(168, 120, 120, 120),
         context: context,
         builder: (BuildContext context) {

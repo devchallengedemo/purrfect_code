@@ -24,11 +24,11 @@ class AppState {
 
   int _level = 1;
   AppCurrentState _state = AppCurrentState.nil;
-  get state => _state;
-  setState(AppCurrentState state) {
+  AppCurrentState get state => _state;
+  void setState(AppCurrentState state) {
     _state = state;
   }
 
   int getLevel() => _level;
-  setLevel(int value) => _level = value;
+  int setLevel(int value) => _level = value;
 }

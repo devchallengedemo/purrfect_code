@@ -43,8 +43,8 @@ class BatteryShadow extends SpriteComponent
     var img = game.images.fromCache(batteryShadowImg);
     sprite = Sprite(img);
     position.add(Vector2(
-        ((gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x),
-        ((gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y)));
+        (gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x,
+        (gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y));
     priority = getLayeredGridValue();
   }
 }

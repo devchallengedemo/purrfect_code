@@ -15,8 +15,9 @@ limitations under the License.
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_audio/flame_audio.dart';
-import '../../app_state.dart';
+
 import '/src/sokoban_view/components/grided.dart';
+import '../../app_state.dart';
 import 'battery_shadow.dart';
 
 class Battery extends SpriteAnimationComponent
@@ -50,8 +51,8 @@ class Battery extends SpriteAnimationComponent
     await _loadAnimations().then((_) => {animation = _idleAnim});
 
     position.add(Vector2(
-        ((gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x),
-        ((gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y)));
+        (gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x,
+        (gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y));
   }
 
   Future<void> _loadAnimations() async {
@@ -74,7 +75,7 @@ class Battery extends SpriteAnimationComponent
   }
 
   void hide() {
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future<void>.delayed(const Duration(milliseconds: 500), () {
       _audioPool.start(volume: appState.volume);
       isVisible = false;
       shadow.isVisible = false;

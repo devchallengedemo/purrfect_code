@@ -14,14 +14,15 @@ limitations under the License.
 
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
-import '/src/sokoban_view/components/player_shadow.dart';
-import '/src/sokoban_view/components/box_shadow.dart';
+
+import '/src/app_state.dart';
+import '/src/helpers/enums.dart';
+import '/src/log/log.dart';
 import '/src/sokoban_view/components/battery.dart';
 import '/src/sokoban_view/components/box.dart';
-import '/src/helpers/enums.dart';
+import '/src/sokoban_view/components/box_shadow.dart';
 import '/src/sokoban_view/components/player.dart';
-import '/src/log/log.dart';
-import '/src/app_state.dart';
+import '/src/sokoban_view/components/player_shadow.dart';
 import 'battery_shadow.dart';
 import 'level_data_bundle.dart';
 import 'tile.dart';

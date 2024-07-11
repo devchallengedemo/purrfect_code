@@ -16,7 +16,8 @@ import 'dart:convert';
 
 class LevelDataBundle {
   final Map<String, Object?> _json;
-  LevelDataBundle(String response) : _json = jsonDecode(response);
+  LevelDataBundle(String response)
+      : _json = jsonDecode(response) as Map<String, dynamic>;
 
   LevelData get levelData {
     if (_json
@@ -28,12 +29,12 @@ class LevelDataBundle {
             'gridPixelYOffset': int gridPixelYOffset,
           }
         }) {
-      return (LevelData(
+      return LevelData(
         gridPixelWidth,
         gridPixelHeight,
         gridPixelXOffset,
         gridPixelYOffset,
-      ));
+      );
     } else {
       throw const FormatException('Unexpected JSON in levelData');
     }
@@ -41,7 +42,10 @@ class LevelDataBundle {
 
   List<LevelImage> get levelImages {
     if (_json case {'levelAssets': List levelImages}) {
-      return levelImages.map((e) => _parseJsonObjectToLevelImage(e)).toList();
+      return levelImages
+          .cast<Map<String, dynamic>>()
+          .map(_parseJsonObjectToLevelImage)
+          .toList();
     } else {
       throw const FormatException('Unexpected JSON in levelAssets');
     }
@@ -60,8 +64,8 @@ class LevelDataBundle {
         'gridYIdx': int gridYPos,
         'layer': int layer,
       } =>
-        LevelImage(type, imgName.toLowerCase(), xPos, yPos, imgWidth, imgHeight, gridXPos,
-            gridYPos, layer),
+        LevelImage(type, imgName.toLowerCase(), xPos, yPos, imgWidth, imgHeight,
+            gridXPos, gridYPos, layer),
       _ => throw const FormatException(),
     };
   }

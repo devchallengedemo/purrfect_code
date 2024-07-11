@@ -13,6 +13,7 @@ limitations under the License.
 */
 
 import 'dart:async';
+
 import 'package:web/web.dart' as web;
 
 class ImportJsLibraryWeb {
@@ -22,9 +23,9 @@ class ImportJsLibraryWeb {
   }
 
   static web.HTMLScriptElement _createScriptTag(String library) {
-    final web.HTMLScriptElement script = web.HTMLScriptElement()
-      ..type = "text/javascript"
-      ..charset = "utf-8"
+    final script = web.HTMLScriptElement()
+      ..type = 'text/javascript'
+      ..charset = 'utf-8'
       ..async = true
       ..defer = true
       ..src = library;
@@ -34,7 +35,7 @@ class ImportJsLibraryWeb {
   /// Injects a bunch of libraries in the <head> and returns a
   /// Future that resolves when all load.
   static Future<void> _importJSLibraries(List<String> libraries) {
-    final List<Future<void>> loading = <Future<void>>[];
+    final loading = <Future<void>>[];
     final head = web.document.querySelector('head');
 
     for (var library in libraries) {
@@ -49,8 +50,8 @@ class ImportJsLibraryWeb {
   }
 
   static bool _isLoaded(web.Element head, String url) {
-    if (url.startsWith("./")) {
-      url = url.replaceFirst("./", "");
+    if (url.startsWith('./')) {
+      url = url.replaceFirst('./', '');
     }
 
     for (var index = 0; index < head.children.length; index++) {
@@ -82,7 +83,7 @@ class ImportJsLibrary {
     return ImportJsLibraryWeb.isImported(url);
   }
 
-  static registerWith(dynamic _) {}
+  static void registerWith(dynamic _) {}
 }
 
 Future<void> importJsLibrary(String url) async {

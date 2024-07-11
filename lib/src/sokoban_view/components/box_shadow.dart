@@ -49,8 +49,8 @@ class BoxShadow extends SpriteAnimationComponent
     await _loadAnimations().then((_) => {animation = _boxClosed});
 
     position.add(Vector2(
-        ((gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x),
-        ((gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y)));
+        (gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x,
+        (gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y));
     priority = getLayeredGridValue();
   }
 

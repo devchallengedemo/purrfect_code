@@ -13,9 +13,10 @@ limitations under the License.
 */
 
 import 'package:flutter/material.dart';
-import 'src/app.dart';
+
 import '/src/game_manager/game_manager.dart';
 import 'src/api_module/game_api.dart';
+import 'src/app.dart';
 
 void main() async {
   var gameManager = GameManager();

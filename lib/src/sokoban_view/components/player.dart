@@ -13,15 +13,17 @@ limitations under the License.
 */
 
 import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/animation.dart';
-import '../../app_state.dart';
+
+import '/src/helpers/enums.dart';
 import '/src/sokoban_view/components/grided.dart';
 import '/src/sokoban_view/components/player_shadow.dart';
-import '/src/helpers/enums.dart';
+import '../../app_state.dart';
 
 class Player extends SpriteAnimationComponent with HasGameRef, GridElement {
   final String playerImg = 'bot_spritesheet.png';
@@ -67,8 +69,8 @@ class Player extends SpriteAnimationComponent with HasGameRef, GridElement {
     await _loadAnimations().then((_) => {animation = _blink1Anim});
 
     position.add(Vector2(
-        ((gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x),
-        ((gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y)));
+        (gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x,
+        (gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y));
   }
 
   Future<void> _loadAnimations() async {
@@ -128,7 +130,7 @@ class Player extends SpriteAnimationComponent with HasGameRef, GridElement {
         _ => _idleWait
       };
 
-      String nextDir = switch (_direction) {
+      var nextDir = switch (_direction) {
         Direction.north => '_walkNorthAnim',
         Direction.south => '_walkSouthAnim',
         Direction.east => '_walkEastAnim',
@@ -141,15 +143,15 @@ class Player extends SpriteAnimationComponent with HasGameRef, GridElement {
         if (animation == _blink1Anim ||
             animation == _blink2Anim ||
             animation == _earWobble) {
-          Random random = Random();
+          var random = Random();
           var randomNumber = random.nextDouble() * 2.0;
           idleSwitchTime = 0.75 + randomNumber;
           animation = _idleWait;
           shadow.setAnimation('_idleWait');
         } else {
           idleSwitchTime = 0.5;
-          Random random = Random();
-          int randomNumber = random.nextInt(3);
+          var random = Random();
+          var randomNumber = random.nextInt(3);
           var animList = [_blink1Anim, _blink2Anim, _earWobble];
           animation = animList[randomNumber];
           var animNameList = ['_blink1Anim', '_blink2Anim', '_earWobble'];
@@ -172,8 +174,9 @@ class Player extends SpriteAnimationComponent with HasGameRef, GridElement {
           duration: _walkAnimDuration,
           curve: Curves.linear,
         )));
-    Future.delayed(
-        const Duration(milliseconds: 500), () => {_direction = Direction.none});
+    Future<void>.delayed(const Duration(milliseconds: 500), () {
+      _direction = Direction.none;
+    });
   }
 
   void _moveEast() {
@@ -185,8 +188,9 @@ class Player extends SpriteAnimationComponent with HasGameRef, GridElement {
           duration: _walkAnimDuration,
           curve: Curves.linear,
         )));
-    Future.delayed(
-        const Duration(milliseconds: 500), () => {_direction = Direction.none});
+    Future<void>.delayed(const Duration(milliseconds: 500), () {
+      _direction = Direction.none;
+    });
   }
 
   void _moveSouth() {
@@ -198,8 +202,9 @@ class Player extends SpriteAnimationComponent with HasGameRef, GridElement {
           duration: _walkAnimDuration,
           curve: Curves.linear,
         )));
-    Future.delayed(
-        const Duration(milliseconds: 500), () => {_direction = Direction.none});
+    Future<void>.delayed(const Duration(milliseconds: 500), () {
+      _direction = Direction.none;
+    });
   }
 
   void _moveNorth() {
@@ -211,8 +216,9 @@ class Player extends SpriteAnimationComponent with HasGameRef, GridElement {
           duration: _walkAnimDuration,
           curve: Curves.linear,
         )));
-    Future.delayed(
-        const Duration(milliseconds: 500), () => {_direction = Direction.none});
+    Future<void>.delayed(const Duration(milliseconds: 500), () {
+      _direction = Direction.none;
+    });
   }
 
   void movePlayer(String moveCommand) {
