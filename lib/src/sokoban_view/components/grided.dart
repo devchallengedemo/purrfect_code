@@ -22,9 +22,9 @@ mixin GridElement {
   late Vector2 gridPixelOffset; //17,22
   late int layer;
 
-  getPosition() => Vector2(
-      ((gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x),
-      ((gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y));
-  getGridValue() => ((gridPosition.y * 13.0) + gridPosition.x);
-  getLayeredGridValue() => getGridValue() + (layer * 200);
+  Vector2 getPosition() => Vector2(
+      (gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x,
+      (gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y);
+  int getGridValue() => ((gridPosition.y * 13.0) + gridPosition.x).toInt();
+  int getLayeredGridValue() => getGridValue() + (layer * 200);
 }
