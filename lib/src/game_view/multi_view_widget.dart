@@ -12,6 +12,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
@@ -51,7 +53,8 @@ class MultiViewWidget extends StatefulWidget {
 class _MultiviewWidgetState extends State<MultiViewWidget> {
   bool setupComplete = false;
   String modalBannerFailedPath = 'assets/ui_images/purrfect_code_failure.png';
-  String modalBannerTutorialPath = 'assets/ui_images/purrfect_code_tutorial.png';
+  String modalBannerTutorialPath =
+      'assets/ui_images/purrfect_code_tutorial.png';
 
   late Function(int) callback;
 
@@ -292,12 +295,11 @@ activateTeleporter() //Call when cats are in position''',
     var firstButton = appState.getLevel() == 1
         ? OutlinedButton(
             style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Colors.white24)
-            ),
+                side: const BorderSide(color: Colors.white24)),
             child: const Text('Previous Level',
-              style: TextStyle(
-                color: Colors.white24,
-              )),
+                style: TextStyle(
+                  color: Colors.white24,
+                )),
             onPressed: () {},
           )
         : OutlinedButton(
@@ -355,12 +357,11 @@ activateTeleporter() //Call when cats are in position''',
       builder: (BuildContext context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.white54,
-              width: 3.0,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(20))
-          ),
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           title: Align(
             alignment: const Alignment(0.0, -2.0),
@@ -374,16 +375,24 @@ activateTeleporter() //Call when cats are in position''',
             mainAxisSize: MainAxisSize
                 .min, // Make the column only as big as its children need it to be
             children: <Widget>[
-              Image.asset(mainImageAsset),
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: Image.asset(mainImageAsset),
+              ),
               const SizedBox(height: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 48.0),
-                      'Score: $score'),
-                ],
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 48.0),
+                        'Score: $score'),
+                  ],
+                ),
               ),
               const SizedBox(height: 10),
               Container(
@@ -478,16 +487,16 @@ activateTeleporter() //Call when cats are in position''',
     );
   }
 
-  void _showIncomplete(BuildContext context, String title, String body, bool failed) {
-        var firstButton = appState.getLevel() == 1
+  void _showIncomplete(
+      BuildContext context, String title, String body, bool failed) {
+    var firstButton = appState.getLevel() == 1
         ? OutlinedButton(
             style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Colors.white24)
-            ),
+                side: const BorderSide(color: Colors.white24)),
             child: const Text('Previous Level',
-              style: TextStyle(
-                color: Colors.white24,
-              )),
+                style: TextStyle(
+                  color: Colors.white24,
+                )),
             onPressed: () {},
           )
         : OutlinedButton(
@@ -524,6 +533,9 @@ activateTeleporter() //Call when cats are in position''',
             },
           );
 
+    var bodyFontSize =
+        min(24.0, (MediaQuery.sizeOf(context).height / 1024.0) * 24.0);
+
     showDialog(
       barrierDismissible: false,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
@@ -531,12 +543,11 @@ activateTeleporter() //Call when cats are in position''',
       builder: (BuildContext context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.white54,
-              width: 3.0,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(20))
-          ),
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           title: Align(
             alignment: const Alignment(0.0, -2.0),
@@ -550,7 +561,12 @@ activateTeleporter() //Call when cats are in position''',
             mainAxisSize: MainAxisSize
                 .min, // Make the column only as big as its children need it to be
             children: <Widget>[
-              Image.asset(failed ? modalBannerFailedPath : modalBannerTutorialPath),
+              Flexible(
+                  flex: 1,
+                  fit: FlexFit.loose,
+                  child: Image.asset(failed
+                      ? modalBannerFailedPath
+                      : modalBannerTutorialPath)),
               const SizedBox(height: 10),
               Container(
                 width: double
@@ -564,7 +580,11 @@ activateTeleporter() //Call when cats are in position''',
                   crossAxisAlignment:
                       CrossAxisAlignment.start, // Left justify the text
                   children: <Widget>[
-                    Text(body),
+                    Text(
+                      body,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: bodyFontSize),
+                    ),
                   ],
                 ),
               ),
@@ -606,7 +626,10 @@ activateTeleporter() //Call when cats are in position''',
   }
 
   void _showTutorial(
-    BuildContext context, String title, String body, String headerImagePath) {
+      BuildContext context, String title, String body, String headerImagePath) {
+    var bodyFontSize =
+        min(24.0, (MediaQuery.sizeOf(context).height / 768.0) * 15.0);
+
     showDialog(
       barrierDismissible: true,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
@@ -614,42 +637,56 @@ activateTeleporter() //Call when cats are in position''',
       builder: (BuildContext context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.white54,
-              width: 3.0,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(20))
-          ),
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           titlePadding: const EdgeInsets.all(10.0),
           title: Align(
             alignment: const Alignment(0.0, -2.0),
-            child: Text(title, 
-              textHeightBehavior: const TextHeightBehavior(leadingDistribution: TextLeadingDistribution.even),
+            child: Text(
+              title,
+              textHeightBehavior: const TextHeightBehavior(
+                  leadingDistribution: TextLeadingDistribution.even),
             ),
           ),
           content: Column(
             mainAxisSize: MainAxisSize
                 .min, // Make the column only as big as its children need it to be
             children: <Widget>[
-              Image.asset(headerImagePath),
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: Image.asset(headerImagePath),
+              ),
               const SizedBox(height: 10),
-              Container(
-                width: double
-                    .infinity, // Make the container fill the modal horizontally
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, // Left justify the text
-                  children: <Widget>[
-                    Text(body),
-                  ],
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: Container(
+                  width: double
+                      .infinity, // Make the container fill the modal horizontally
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start, // Left justify the text
+                    children: <Widget>[
+                      Text(
+                        body,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: bodyFontSize),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
             ],
           ),
           actionsPadding: const EdgeInsets.fromLTRB(60, 20, 60, 20),

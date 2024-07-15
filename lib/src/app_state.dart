@@ -22,6 +22,7 @@ class AppState {
   final lastLevel = 5;
   double volume = 0.33;
 
+  bool _muted = false;
   int _level = 1;
   AppCurrentState _state = AppCurrentState.nil;
   get state => _state;
@@ -31,4 +32,10 @@ class AppState {
 
   int getLevel() => _level;
   setLevel(int value) => _level = value;
+  setMute(bool value) {
+    _muted = !value;
+    volume = _muted ? 0 : 0.33;
+  }
+
+  bool muted() => _muted;
 }
