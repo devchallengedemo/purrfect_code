@@ -157,7 +157,7 @@ class SokobanWorld extends World with HasGameRef {
       var initialIdx = int.parse(split[1]);
       var nextIdx = int.parse(split[2]);
       var goalHit = bool.parse(split[3]);
-      var gridValue = box.getGridValue() as int;
+      var gridValue = box.getGridValue();
 
       logger.i('box $idx $gridValue');
       if (gridValue == initialIdx) {
@@ -182,7 +182,7 @@ class SokobanWorld extends World with HasGameRef {
 
     for (var idx = 0; idx < batteries.length; idx++) {
       var battery = batteries[idx];
-      var gridValue = battery.getGridValue() as int;
+      var gridValue = battery.getGridValue();
 
       if (gridValue == initialIdx) {
         battery.hide();
