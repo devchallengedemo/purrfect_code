@@ -68,7 +68,10 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
       int batteries = widget.gameManager.player!.getBatteryCount();
       int score =
           100 - (semicolons * 2) - (braces * 2) - steps + (batteries * 5);
+      //TODO: this where I need to inject new urls for badges
       String badgeUrl = 'https://www.google.com';
+      //TODO: this is the place set star count
+      // int stars = getStars(score, level);
       if (value) {
         _showModalWindow(
           context,
@@ -82,12 +85,9 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
           badgeUrl,
         );
       } else {
-        _showIncomplete(
-          context,
-          'Incomplete',
-          'Sorry, You have not completed the level. Try again to win the level badge!',
-          true,
-        );
+        //FAILURE DIALOG
+        logger.i('Failure Dialog here plz.');
+        _retry();
       }
     });
     widget.gameManager.setGameReference(widget.game);
@@ -185,9 +185,11 @@ activateTeleporter();
 ''',
           _ => ''
         };
-        if (widget.editor.controller.text.isEmpty) {
-          widget.editor.setText(txt);
-        }
+
+        //if (widget.editor.controller.text.isEmpty) {
+        widget.editor.setText(txt);
+        // }
+
         _loadLevelData(appState.getLevel(), () => _setAppStateLoaded());
       }
       return Container();
@@ -202,12 +204,7 @@ activateTeleporter();
               _setAppStateRunning();
               break;
             case 1:
-              _showIncomplete(
-                context,
-                'Restart Level',
-                'You can restart the level, or skip ahead from here.',
-                false,
-              );
+              _retry();
               break;
             case 2:
               _showTutorial(
@@ -226,6 +223,8 @@ moveWest() //Move one space west
 activateTeleporter() //Call when cats are in position''',
                   modalBannerTutorialPath);
               break;
+            case 3:
+              _setAppStateUnloaded();
             default:
               break;
           }
@@ -280,6 +279,7 @@ activateTeleporter() //Call when cats are in position''',
     logger.i('LEVEL CREATED!');
   }
 
+  //TODO: This needs to be replaced witht the new Victory Screen
   void _showModalWindow(
       BuildContext context,
       String title,
@@ -487,142 +487,9 @@ activateTeleporter() //Call when cats are in position''',
     );
   }
 
-  void _showIncomplete(
-      BuildContext context, String title, String body, bool failed) {
-    var firstButton = appState.getLevel() == 1
-        ? OutlinedButton(
-            style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Colors.white24)),
-            child: const Text('Previous Level',
-                style: TextStyle(
-                  color: Colors.white24,
-                )),
-            onPressed: () {},
-          )
-        : OutlinedButton(
-            child: const Text('Previous Level'),
-            onPressed: () {
-              {
-                Navigator.of(context).pop();
-                appState.setLevel(appState.getLevel() - 1);
-                widget.game.reset();
-                widget.editor.resetText();
-                _setAppStateUnloaded();
-              }
-            },
-          );
-
-    var thirdButton = appState.getLevel() == appState.lastLevel
-        ? OutlinedButton(
-            style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Colors.white24)),
-            child: const Text('Next Level',
-                style: TextStyle(
-                  color: Colors.white24,
-                )),
-            onPressed: () {},
-          )
-        : OutlinedButton(
-            child: const Text('Next Level'),
-            onPressed: () {
-              Navigator.of(context).pop();
-              appState.setLevel(appState.getLevel() + 1);
-              widget.game.reset();
-              widget.editor.resetText();
-              _setAppStateUnloaded();
-            },
-          );
-
-    var bodyFontSize =
-        min(24.0, (MediaQuery.sizeOf(context).height / 1024.0) * 24.0);
-
-    showDialog(
-      barrierDismissible: false,
-      barrierColor: const Color.fromARGB(168, 120, 120, 120),
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: const RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.white54,
-                width: 3.0,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          title: Align(
-            alignment: const Alignment(0.0, -2.0),
-            child: Text(
-              title,
-              textHeightBehavior: const TextHeightBehavior(
-                  leadingDistribution: TextLeadingDistribution.even),
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need it to be
-            children: <Widget>[
-              Flexible(
-                  flex: 1,
-                  fit: FlexFit.loose,
-                  child: Image.asset(failed
-                      ? modalBannerFailedPath
-                      : modalBannerTutorialPath)),
-              const SizedBox(height: 10),
-              Container(
-                width: double
-                    .infinity, // Make the container fill the modal horizontally
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, // Left justify the text
-                  children: <Widget>[
-                    Text(
-                      body,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: bodyFontSize),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-          actionsPadding: const EdgeInsets.fromLTRB(60, 20, 60, 20),
-          actions: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Expanded(
-                  flex: 2,
-                  child: firstButton,
-                ),
-                const Spacer(),
-                Expanded(
-                  flex: 2,
-                  child: OutlinedButton(
-                    child: const Text('Retry'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      widget.game.reset();
-                      _setAppStateUnloaded();
-                    },
-                  ),
-                ),
-                const Spacer(),
-                Expanded(
-                  flex: 2,
-                  child: thirdButton,
-                ),
-              ],
-            ),
-          ],
-        );
-      },
-    );
+  void _retry() {
+    widget.game.reset();
+    _setAppStateUnloaded();
   }
 
   void _showTutorial(

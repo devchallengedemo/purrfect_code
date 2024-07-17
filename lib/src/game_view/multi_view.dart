@@ -64,10 +64,60 @@ class _ThreeItemViewState extends State<MultiView>
     String codeTxt =
         appState.state == AppCurrentState.running ? 'Running...' : 'Run Code';
     const double lowerBarHeight = 72;
-    double lowerBarInset = width / 16.0;
+    double lowerBarInset = width / 64.0;
     double gameViewWidth = 256;
     double gameViewHeight = 240;
-    double minEditorWidth = height > width ? 64 : 400;
+    double minEditorWidth = 500;
+
+    var prevButton = appState.getLevel() == 1
+        ? TextButton(
+            child: const Text('Previous Level',
+                overflow: TextOverflow.visible,
+                softWrap: false,
+                style: TextStyle(
+                  color: Colors.white24,
+                )),
+            onPressed: () {},
+          )
+        : TextButton(
+            child: const Text(
+              'Previous Level',
+              overflow: TextOverflow.visible,
+              softWrap: false,
+            ),
+            onPressed: () {
+              {
+                appState.setLevel(appState.getLevel() - 1);
+                widget.editor.resetText();
+                widget.game.reset();
+                widget.callback(3);
+              }
+            },
+          );
+
+    var nextButton = appState.getLevel() == appState.lastLevel
+        ? TextButton(
+            child: const Text('Next Level',
+                overflow: TextOverflow.visible,
+                softWrap: false,
+                style: TextStyle(
+                  color: Colors.white24,
+                )),
+            onPressed: () {},
+          )
+        : TextButton(
+            child: const Text(
+              'Next Level',
+              overflow: TextOverflow.visible,
+              softWrap: false,
+            ),
+            onPressed: () {
+              appState.setLevel(appState.getLevel() + 1);
+              widget.editor.resetText();
+              widget.game.reset();
+              widget.callback(3);
+            },
+          );
 
     if (width > minEditorWidth + 512 && height > lowerBarHeight + 480) {
       gameViewWidth = 512;
@@ -83,7 +133,6 @@ class _ThreeItemViewState extends State<MultiView>
     }
 
     var editorWidth = min(1000.0, (width - gameViewWidth - 64));
-    var editorHeight = height - gameViewHeight - lowerBarHeight - 32;
     var geminiHeight = height - gameViewHeight - 48;
     if (geminiHeight < gameViewHeight * 2) geminiHeight = gameViewHeight * 2.0;
 
@@ -94,267 +143,22 @@ class _ThreeItemViewState extends State<MultiView>
       ),
     );
 
-    if (height < width) {
-      return Column(
-        children: [
-          Expanded(
-            flex: 4,
-            child: Container(
-              color: const Color.fromARGB(255, 32, 32, 32),
-              height: height,
-              width: width,
-              alignment: Alignment.center,
-              child: Row(
-                children: [
-                  Expanded(flex: 1, child: Container()),
-                  Expanded(
-                    flex: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: editorWidth,
-                        height: height,
-                        child: Container(
-                          color: const Color.fromARGB(255, 32, 32, 32),
-                          alignment: Alignment.center,
-                          child: DefaultTabController(
-                            length: 4,
-                            child: Scaffold(
-                              appBar: AppBar(
-                                toolbarHeight: 0,
-                                bottom: TabBar(
-                                  //note: https://github.com/flutter/flutter/pull/96252
-                                  //had to disable splash and overlay color
-                                  splashFactory: NoSplash.splashFactory,
-                                  overlayColor:
-                                      WidgetStateProperty.resolveWith<Color?>(
-                                          (Set<WidgetState> states) {
-                                    // Use the default focused overlay color
-                                    return states.contains(WidgetState.focused)
-                                        ? null
-                                        : Colors.transparent;
-                                  }),
-                                  controller: _tabController,
-                                  onTap: (index) {
-                                    if (_tabController.indexIsChanging) {
-                                      if (index > 0) {
-                                        _tabController.index =
-                                            _tabController.previousIndex;
-                                      } else {
-                                        setState(() {
-                                          _tabController.index = index;
-                                        });
-                                      }
-                                    }
-                                  },
-                                  tabs: [
-                                    const Tab(
-                                        child: Text(
-                                      'Code The Robot',
-                                      overflow: TextOverflow.clip,
-                                      softWrap: false,
-                                    )),
-                                    Tab(
-                                      child: ElevatedButton(
-                                        style: flatButtonStyle,
-                                        onPressed: () {
-                                          widget.callback(1);
-                                        },
-                                        child: const Text(
-                                          'Restart',
-                                          overflow: TextOverflow.clip,
-                                          softWrap: false,
-                                        ),
-                                      ),
-                                    ),
-                                    Tab(
-                                      child: ElevatedButton(
-                                        style: flatButtonStyle,
-                                        onPressed: () {
-                                          _runCode();
-                                        },
-                                        child: Text(codeTxt,
-                                            overflow: TextOverflow.clip,
-                                            softWrap: false),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              body: TabBarView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                controller: _tabController,
-                                children: [
-                                  SizedBox(
-                                    width: editorWidth,
-                                    height: height,
-                                    child: Container(
-                                      color:
-                                          const Color.fromARGB(200, 72, 80, 88),
-                                      alignment: Alignment.center,
-                                      child: widget.editor,
-                                    ),
-                                  ),
-                                  const Icon(Icons.dangerous_outlined),
-                                  const Icon(Icons.dangerous_outlined),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: gameViewWidth,
-                      height: gameViewHeight,
-                      child: Stack(children: <Widget>[
-                        GameWidget(game: widget.game, autofocus: false),
-                        Positioned.fill(
-                          child: Align(
-                            alignment: const Alignment(0.95, -0.95),
-                            child: SizedBox(
-                              height: 32.0,
-                              width: 64.0,
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 32, 32, 32),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    side: const BorderSide(
-                                      color: Color.fromARGB(255, 78, 80, 82),
-                                      width: 3.0,
-                                    ),
-                                  ),
-                                ),
-                                child: Icon(volumeIcon),
-                                onPressed: () {
-                                  _setMute(appState.muted());
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ]),
-                    ),
-                  ),
-                  Expanded(flex: 1, child: Container()),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
+    return Column(
+      children: [
+        Expanded(
+          child: Container(
+            color: const Color.fromARGB(255, 32, 32, 32),
+            height: height,
             width: width,
-            height: lowerBarHeight,
-            child: Container(
-              color: const Color.fromARGB(255, 32, 32, 32),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
-                      child: TextButton(
-                        child: const Text(
-                          'API Reference',
-                          overflow: TextOverflow.clip,
-                          softWrap: false,
-                        ),
-                        onPressed: () {
-                          widget.callback(2);
-                        },
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
-                      child: TextButton(
-                        child: const Text(''),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
-                      child: TextButton(
-                        child: const Text(''),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
-                      child: TextButton(
-                        child:
-                            Image.asset('assets/ui_images/g4d_logo_lockup.png'),
-                        onPressed: () => launchUrl(
-                            Uri.parse('https://developers.google.com/')),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      );
-    } else {
-      return Column(
-        children: [
-          Expanded(
-            child: Container(
-              color: const Color.fromARGB(255, 32, 32, 32),
-              height: height,
-              width: width,
-              alignment: Alignment.center,
-              child: Column(
-                children: [
-                  Padding(
+            alignment: Alignment.center,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                      width: gameViewWidth,
-                      height: gameViewHeight,
-                      child: Stack(children: <Widget>[
-                        GameWidget(game: widget.game, autofocus: false),
-                        Positioned.fill(
-                          child: Align(
-                            alignment: const Alignment(0.95, -0.95),
-                            child: SizedBox(
-                              height: 32.0,
-                              width: 64.0,
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 32, 32, 32),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    side: const BorderSide(
-                                      color: Color.fromARGB(255, 78, 80, 82),
-                                      width: 3.0,
-                                    ),
-                                  ),
-                                ),
-                                child: Icon(volumeIcon),
-                                onPressed: () {
-                                  _setMute(appState.muted());
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ]),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: width,
-                      height: editorHeight,
+                      width: editorWidth,
+                      height: height,
                       child: Container(
                         color: const Color.fromARGB(255, 32, 32, 32),
                         alignment: Alignment.center,
@@ -390,30 +194,27 @@ class _ThreeItemViewState extends State<MultiView>
                                 },
                                 tabs: [
                                   const Tab(
-                                    child: Text(
-                                      'Code The Robot',
-                                      overflow: TextOverflow.clip,
-                                      softWrap: false,
-                                    ),
-                                  ),
+                                      child: Text(
+                                    'Code The Robot',
+                                    overflow: TextOverflow.clip,
+                                    softWrap: false,
+                                  )),
                                   Tab(
                                     child: ElevatedButton(
                                       style: flatButtonStyle,
                                       onPressed: () {
                                         _runCode();
                                       },
-                                      child: Text(
-                                        codeTxt,
-                                        overflow: TextOverflow.clip,
-                                        softWrap: false,
-                                      ),
+                                      child: Text(codeTxt,
+                                          overflow: TextOverflow.clip,
+                                          softWrap: false),
                                     ),
                                   ),
                                   Tab(
                                     child: ElevatedButton(
                                       style: flatButtonStyle,
                                       onPressed: () {
-                                        widget.callback(1);
+                                        //widget.callback(1);
                                       },
                                       child: const Text(
                                         'Retry',
@@ -431,7 +232,7 @@ class _ThreeItemViewState extends State<MultiView>
                               children: [
                                 SizedBox(
                                   width: editorWidth,
-                                  height: editorHeight,
+                                  height: height,
                                   child: Container(
                                     color:
                                         const Color.fromARGB(200, 72, 80, 88),
@@ -447,51 +248,113 @@ class _ThreeItemViewState extends State<MultiView>
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            width: width,
-            height: lowerBarHeight,
-            child: Container(
-              color: const Color.fromARGB(255, 32, 32, 32),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
-                      child: TextButton(
-                        child: const Text(
-                          'API Reference',
-                          overflow: TextOverflow.clip,
-                          softWrap: false,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: gameViewWidth,
+                    height: gameViewHeight,
+                    child: Stack(children: <Widget>[
+                      GameWidget(game: widget.game, autofocus: false),
+                      Positioned.fill(
+                        child: Align(
+                          alignment: const Alignment(0.95, -0.95),
+                          child: SizedBox(
+                            height: 32.0,
+                            width: 64.0,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 32, 32, 32),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  side: const BorderSide(
+                                    color: Color.fromARGB(255, 78, 80, 82),
+                                    width: 3.0,
+                                  ),
+                                ),
+                              ),
+                              child: Icon(volumeIcon),
+                              onPressed: () {
+                                _setMute(appState.muted());
+                              },
+                            ),
+                          ),
                         ),
-                        onPressed: () {
-                          widget.callback(2);
-                        },
                       ),
-                    ),
+                    ]),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
-                      child: TextButton(
-                        child:
-                            Image.asset('assets/ui_images/g4d_logo_lockup.png'),
-                        onPressed: () => launchUrl(
-                            Uri.parse('https://developers.google.com/')),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
-      );
-    }
+        ),
+        SizedBox(
+          width: width,
+          height: lowerBarHeight,
+          child: Container(
+            color: const Color.fromARGB(255, 32, 32, 32),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
+                    child: TextButton(
+                      child: const Text(
+                        'API Reference',
+                        overflow: TextOverflow.visible,
+                        softWrap: false,
+                      ),
+                      onPressed: () {
+                        widget.callback(2);
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
+                    child: prevButton,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
+                    child: nextButton,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
+                    child: TextButton(
+                      child: const Text(
+                        'How This Was Made',
+                        overflow: TextOverflow.visible,
+                        softWrap: false,
+                      ),
+                      onPressed: () => launchUrl(
+                          Uri.parse('https://developers.google.com/')),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: lowerBarInset),
+                    child: TextButton(
+                      child:
+                          Image.asset('assets/ui_images/g4d_logo_lockup.png'),
+                      onPressed: () => launchUrl(
+                          Uri.parse('https://developers.google.com/')),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   void _runCode() {
