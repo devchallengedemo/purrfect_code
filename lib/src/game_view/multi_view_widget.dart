@@ -68,6 +68,8 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
       int batteries = widget.gameManager.player!.getBatteryCount();
       int score =
           100 - (semicolons * 2) - (braces * 2) - steps + (batteries * 5);
+      int stars = 3;
+
       //TODO: this where I need to inject new urls for badges
       String badgeUrl = 'https://www.google.com';
       //TODO: this is the place set star count
@@ -75,8 +77,7 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
       if (value) {
         _showModalWindow(
           context,
-          'Victory',
-          'Congratulations! You have completed the level and earned a badge!',
+          stars,
           score,
           steps,
           semicolons,
@@ -280,58 +281,56 @@ activateTeleporter() //Call when cats are in position''',
   }
 
   //TODO: This needs to be replaced witht the new Victory Screen
-  void _showModalWindow(
-      BuildContext context,
-      String title,
-      String body,
-      int score,
-      int steps,
-      int semicolons,
-      int braces,
-      int batteries,
-      String badgeUrl) {
+  void _showModalWindow(BuildContext context, int stars, int score, int steps,
+      int semicolons, int braces, int batteries, String badgeUrl) {
     _setAppStateLoaded();
 
-    var firstButton = appState.getLevel() == 1
-        ? OutlinedButton(
-            style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Colors.white24)),
+    var prevButton = appState.getLevel() == 1
+        ? TextButton(
             child: const Text('Previous Level',
+                overflow: TextOverflow.visible,
+                softWrap: false,
                 style: TextStyle(
                   color: Colors.white24,
                 )),
             onPressed: () {},
           )
-        : OutlinedButton(
-            child: const Text('Previous Level'),
+        : TextButton(
+            child: const Text(
+              'Previous Level',
+              overflow: TextOverflow.visible,
+              softWrap: false,
+            ),
             onPressed: () {
               {
-                Navigator.of(context).pop();
                 appState.setLevel(appState.getLevel() - 1);
-                widget.game.reset();
                 widget.editor.resetText();
+                widget.game.reset();
                 _setAppStateUnloaded();
               }
             },
           );
 
-    var thirdButton = appState.getLevel() == appState.lastLevel
-        ? OutlinedButton(
-            style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Colors.white24)),
+    var nextButton = appState.getLevel() == appState.lastLevel
+        ? TextButton(
             child: const Text('Next Level',
+                overflow: TextOverflow.visible,
+                softWrap: false,
                 style: TextStyle(
                   color: Colors.white24,
                 )),
             onPressed: () {},
           )
-        : OutlinedButton(
-            child: const Text('Next Level'),
+        : TextButton(
+            child: const Text(
+              'Next Level',
+              overflow: TextOverflow.visible,
+              softWrap: false,
+            ),
             onPressed: () {
-              Navigator.of(context).pop();
               appState.setLevel(appState.getLevel() + 1);
-              widget.game.reset();
               widget.editor.resetText();
+              widget.game.reset();
               _setAppStateUnloaded();
             },
           );
@@ -363,94 +362,75 @@ activateTeleporter() //Call when cats are in position''',
               ),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          title: Align(
-            alignment: const Alignment(0.0, -2.0),
-            child: Text(
-              title,
-              textHeightBehavior: const TextHeightBehavior(
-                  leadingDistribution: TextLeadingDistribution.even),
-            ),
-          ),
+          title: const Text(''),
           content: Column(
             mainAxisSize: MainAxisSize
                 .min, // Make the column only as big as its children need it to be
             children: <Widget>[
-              Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: Image.asset(mainImageAsset),
-              ),
-              const SizedBox(height: 10),
-              Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              Image.asset(mainImageAsset),
+              SizedBox(height: 10),
+              IntrinsicHeight(
+                child: Row(
                   children: <Widget>[
-                    Text(
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 48.0),
-                        'Score: $score'),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SizedBox(width: 20),
+                              Icon(
+                                  stars > 0
+                                      ? Icons.star
+                                      : Icons.star_border_outlined,
+                                  size: 64),
+                              Icon(
+                                  stars > 1
+                                      ? Icons.star
+                                      : Icons.star_border_outlined,
+                                  size: 64),
+                              Icon(
+                                  stars > 2
+                                      ? Icons.star
+                                      : Icons.star_border_outlined,
+                                  size: 64),
+                              SizedBox(width: 20),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text('Score:', textAlign: TextAlign.left),
+                              Text('56', textAlign: TextAlign.right),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 1,
+                      thickness: 3,
+                      indent: 0,
+                      endIndent: 0,
+                      color: Colors.white24,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Text('score'),
+                          Text('foo'),
+                          Text('bar'),
+                          Text('baz'),
+                          Text('bear'),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                width: double
-                    .infinity, // Make the container fill the modal horizontally
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, // Left justify the text
-                  children: <Widget>[
-                    Text(body),
-                    Text('Total Moves: $steps x -1'),
-                    Text('Semicolons In Code: $semicolons x -2'),
-                    Text('Braces In Code: $braces x -2'),
-                    Text('Batteries Collected: $batteries x 5'),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  InkWell(
-                    onTap: () async {
-                      var badgeUri = Uri.parse(badgeUrl);
-                      if (await canLaunchUrl(badgeUri)) {
-                        await launchUrl(badgeUri);
-                      } else {
-                        throw 'Could not launch $badgeUrl';
-                      }
-                    },
-                    child: Image.asset(
-                      badgeImageAsset,
-                      width: 128,
-                      height: 128,
-                    ),
-                  ),
-                  Center(
-                    child: TextButton(
-                      child: const Text(
-                          'Add badge to your Google Developer Profile'),
-                      onPressed: () async {
-                        Uri badgeUri = Uri.parse(badgeUrl);
-                        if (await canLaunchUrl(badgeUri)) {
-                          await launchUrl(badgeUri);
-                        } else {
-                          throw 'Could not launch $badgeUrl';
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              )
             ],
           ),
           actionsPadding: const EdgeInsets.fromLTRB(60, 20, 60, 20),
@@ -460,24 +440,12 @@ activateTeleporter() //Call when cats are in position''',
               children: <Widget>[
                 Expanded(
                   flex: 2,
-                  child: firstButton,
+                  child: prevButton,
                 ),
                 const Spacer(),
                 Expanded(
                   flex: 2,
-                  child: OutlinedButton(
-                    child: const Text('Retry'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      widget.game.reset();
-                      _setAppStateUnloaded();
-                    },
-                  ),
-                ),
-                const Spacer(),
-                Expanded(
-                  flex: 2,
-                  child: thirdButton,
+                  child: nextButton,
                 ),
               ],
             ),
