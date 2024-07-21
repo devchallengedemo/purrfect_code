@@ -50,12 +50,19 @@ class MultiViewWidget extends StatefulWidget {
   createState() => _MultiviewWidgetState();
 }
 
+class ScoringThresholds {
+  int threeStars = 100;
+  int twoStars = 50;
+  int oneStar = 0;
+}
+
 class _MultiviewWidgetState extends State<MultiViewWidget> {
   bool setupComplete = false;
   String modalBannerFailedPath = 'assets/ui_images/purrfect_code_failure.png';
   String modalBannerTutorialPath =
       'assets/ui_images/purrfect_code_tutorial.png';
 
+  ScoringThresholds thresholds = ScoringThresholds();
   late Function(int) callback;
 
   @override
@@ -68,23 +75,14 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
       int batteries = widget.gameManager.player!.getBatteryCount();
       int score =
           100 - (semicolons * 2) - (braces * 2) - steps + (batteries * 5);
-      int stars = 3;
+      int stars = 0;
+      if (score > thresholds.oneStar) stars++;
+      if (score > thresholds.twoStars) stars++;
+      if (score > thresholds.threeStars) stars++;
 
-      //TODO: this where I need to inject new urls for badges
-      String badgeUrl = 'https://www.google.com';
-      //TODO: this is the place set star count
-      // int stars = getStars(score, level);
       if (value) {
         _showModalWindow(
-          context,
-          stars,
-          score,
-          steps,
-          semicolons,
-          braces,
-          batteries,
-          badgeUrl,
-        );
+            context, stars, score, steps, semicolons, braces, batteries);
       } else {
         //FAILURE DIALOG
         logger.i('Failure Dialog here plz.');
@@ -276,13 +274,16 @@ activateTeleporter() //Call when cats are in position''',
       processedTiles,
     );
 
+    thresholds.threeStars = metaData.threeStars;
+    thresholds.twoStars = metaData.twoStars;
+    thresholds.oneStar = metaData.oneStar;
+
     setAppDataLoaded();
     logger.i('LEVEL CREATED!');
   }
 
-  //TODO: This needs to be replaced witht the new Victory Screen
   void _showModalWindow(BuildContext context, int stars, int score, int steps,
-      int semicolons, int braces, int batteries, String badgeUrl) {
+      int semicolons, int braces, int batteries) {
     _setAppStateLoaded();
 
     var prevButton = appState.getLevel() == 1
@@ -307,6 +308,7 @@ activateTeleporter() //Call when cats are in position''',
                 widget.editor.resetText();
                 widget.game.reset();
                 _setAppStateUnloaded();
+                Navigator.of(context).pop();
               }
             },
           );
@@ -332,6 +334,7 @@ activateTeleporter() //Call when cats are in position''',
               widget.editor.resetText();
               widget.game.reset();
               _setAppStateUnloaded();
+              Navigator.of(context).pop();
             },
           );
 
@@ -346,6 +349,15 @@ activateTeleporter() //Call when cats are in position''',
       3 => 'assets/ui_images/level_3_badge.png',
       4 => 'assets/ui_images/level_4_badge.png',
       5 => 'assets/ui_images/level_5_badge.png',
+      _ => 'assets/ui_images/level_1_badge.png',
+    };
+
+    String badgeUrl = switch (appState.getLevel()) {
+      1 => 'https://developers.google.com/purrfect-code/level-1',
+      2 => 'https://developers.google.com/purrfect-code/level-2',
+      3 => 'https://developers.google.com/purrfect-code/level-3',
+      4 => 'https://developers.google.com/purrfect-code/level-4',
+      5 => 'https://developers.google.com/purrfect-code/level-5',
       _ => 'assets/ui_images/level_1_badge.png',
     };
 
@@ -368,7 +380,7 @@ activateTeleporter() //Call when cats are in position''',
                 .min, // Make the column only as big as its children need it to be
             children: <Widget>[
               Image.asset(mainImageAsset),
-              SizedBox(height: 10),
+              const SizedBox(height: 20),
               IntrinsicHeight(
                 child: Row(
                   children: <Widget>[
@@ -379,7 +391,7 @@ activateTeleporter() //Call when cats are in position''',
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                               Icon(
                                   stars > 0
                                       ? Icons.star
@@ -395,21 +407,115 @@ activateTeleporter() //Call when cats are in position''',
                                       ? Icons.star
                                       : Icons.star_border_outlined,
                                   size: 64),
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                             ],
                           ),
-                          SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text('Score:', textAlign: TextAlign.left),
-                              Text('56', textAlign: TextAlign.right),
-                            ],
-                          )
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 0.0),
+                            child: Table(
+                              columnWidths: const <int, TableColumnWidth>{
+                                0: FlexColumnWidth(),
+                                1: FlexColumnWidth(),
+                              },
+                              defaultVerticalAlignment:
+                                  TableCellVerticalAlignment.middle,
+                              children: <TableRow>[
+                                TableRow(
+                                  children: <Widget>[
+                                    const TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          'Score:',
+                                          style: TextStyle(
+                                              height: 1.5, fontSize: 36),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          '$score',
+                                          style: const TextStyle(
+                                              height: 1.5, fontSize: 36),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: <Widget>[
+                                    const TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text('Total moves:'),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text('$steps x -1'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: <Widget>[
+                                    const TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text('Semicolons used:'),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text('$semicolons x -2'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: <Widget>[
+                                    const TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text('Braces used:'),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text('$braces x -2'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: <Widget>[
+                                    const TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text('Bonus batteries:'),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text('$batteries x 5'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    VerticalDivider(
+                    const VerticalDivider(
                       width: 1,
                       thickness: 3,
                       indent: 0,
@@ -420,11 +526,36 @@ activateTeleporter() //Call when cats are in position''',
                       flex: 1,
                       child: Column(
                         children: [
-                          Text('score'),
-                          Text('foo'),
-                          Text('bar'),
-                          Text('baz'),
-                          Text('bear'),
+                          // ignore: sized_box_for_whitespace
+                          Container(
+                            height: 96,
+                            child: Image.asset(badgeImageAsset),
+                          ),
+                          const Text(
+                            'Congratulations!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                height: 1.25,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          const SizedBox(height: 10),
+                          const Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'You earned a Developer\n Profile Badge!',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          OutlinedButton(
+                            child: const Text(
+                              'Redeem badge',
+                              overflow: TextOverflow.visible,
+                              softWrap: false,
+                            ),
+                            onPressed: () => launchUrl(Uri.parse(badgeUrl)),
+                          ),
                         ],
                       ),
                     ),

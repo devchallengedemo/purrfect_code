@@ -27,10 +27,13 @@ class LevelData {
             'tileCountHeight': int tileCountHeight,
             'playerStartX': int playerStartX,
             'playerStartY': int playerStartY,
+            'threeStars': int threeStars,
+            'twoStars': int twoStars,
+            'oneStar': int oneStar
           }
         }) {
       return (LevelMetadata(levelName, tileCountWidth, tileCountHeight,
-          playerStartX, playerStartY));
+          playerStartX, playerStartY, threeStars, twoStars, oneStar));
     } else {
       throw const FormatException('Unexpected JSON');
     }
@@ -51,6 +54,9 @@ class LevelMetadata {
   int tileCountHeight;
   int playerStartX;
   int playerStartY;
+  int threeStars;
+  int twoStars;
+  int oneStar;
 
   LevelMetadata(
     this.levelName,
@@ -58,6 +64,9 @@ class LevelMetadata {
     this.tileCountHeight,
     this.playerStartX,
     this.playerStartY,
+    this.threeStars,
+    this.twoStars,
+    this.oneStar,
   );
 }
 

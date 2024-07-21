@@ -4,7 +4,10 @@
         "tileCountWidth": 13,
         "tileCountHeight": 13,
         "playerStartX": 0,
-        "playerStartY": 11
+        "playerStartY": 11,
+        "threeStars": 40,
+        "twoStars":20,
+        "oneStar":0
     },
     "levelArray": {
         "tiles": [
