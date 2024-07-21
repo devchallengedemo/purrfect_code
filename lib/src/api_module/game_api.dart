@@ -113,6 +113,7 @@ class GameApi {
   }
 
   void dartErrorRoute(String error) {
+    _gameManager.errorHit(error);
     var result = 'ERROR: $error';
     logger.e(result);
   }

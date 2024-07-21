@@ -80,13 +80,15 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
       if (score > thresholds.twoStars) stars++;
       if (score > thresholds.threeStars) stars++;
 
-      if (value) {
+      if (value.contains('victory')) {
         _showModalWindow(
             context, stars, score, steps, semicolons, braces, batteries);
-      } else {
-        //FAILURE DIALOG
-        logger.i('Failure Dialog here plz.');
+      } else if (value.contains('failure')) {
         _retry();
+      } else if (value.contains('error')) {
+        _retry();
+        //split out error string
+        //failure modal
       }
     });
     widget.gameManager.setGameReference(widget.game);

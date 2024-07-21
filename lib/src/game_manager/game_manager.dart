@@ -268,6 +268,13 @@ class GameManager {
     }
   }
 
+  void errorHit(String error) {
+    var errorString = 'error\n $error\n';
+    commandQueue += errorString;
+    game.parseCommandQueue(commandQueue);
+    commandQueue = '';
+  }
+
   void completionHit() {
     game.parseCommandQueue(commandQueue);
     logger.i(commandQueue);

@@ -23,10 +23,10 @@ import 'components/world.dart';
 
 class SokobanGame extends FlameGame {
   SokobanWorld _world = SokobanWorld();
-  late final ValueChanged<bool> onGameEnd;
+  late final ValueChanged<String> onGameEnd;
   bool _cancel = false;
 
-  SokobanGame(ValueChanged<bool> gameEndCallback) : super() {
+  SokobanGame(ValueChanged<String> gameEndCallback) : super() {
     onGameEnd = gameEndCallback;
   }
 
@@ -219,7 +219,7 @@ class SokobanGame extends FlameGame {
     for (var i = 0; i < commandSet.length; i++) {
       logger.i(commandSet[i]);
 
-      if(_cancel){
+      if (_cancel) {
         break;
       } else if (commandSet[i].contains('step')) {
         await Future.delayed(moveSpeed);
@@ -238,6 +238,8 @@ class SokobanGame extends FlameGame {
         victory();
       } else if (commandSet[i].contains('Failed')) {
         failed();
+      } else if (commandSet[i].contains('error')) {
+        failedWithError(commandSet[i + 1]);
       }
     }
   }
@@ -264,14 +266,26 @@ class SokobanGame extends FlameGame {
         const Duration(milliseconds: 2000),
         () => {
               FlameAudio.play('victory.mp3', volume: appState.volume),
-              onGameEnd(true),
+              onGameEnd('victory'),
               appState.setState(AppCurrentState.loaded)
             });
   }
 
   Future<void> failed() async {
     _world.player.failure();
-    await Future.delayed(const Duration(milliseconds: 2000),
-        () => {onGameEnd(false), appState.setState(AppCurrentState.loaded)});
+    await Future.delayed(
+        const Duration(milliseconds: 2000),
+        () =>
+            {onGameEnd('failure'), appState.setState(AppCurrentState.loaded)});
+  }
+
+  Future<void> failedWithError(String error) async {
+    _world.player.failure();
+    await Future.delayed(
+        const Duration(milliseconds: 2000),
+        () => {
+              onGameEnd('error:\n $error'),
+              appState.setState(AppCurrentState.loaded)
+            });
   }
 }
