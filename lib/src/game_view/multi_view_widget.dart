@@ -84,12 +84,8 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
       if (value.contains('victory')) {
         _showVictoryModal(
             context, stars, score, steps, semicolons, braces, batteries);
-      } else if (value.contains('failure')) {
+      } else {
         _showFailureModal(context);
-      } else if (value.contains('error')) {
-        LineSplitter ls = const LineSplitter();
-        var errorMsg = ls.convert(value);
-        _showErrorModal(context, errorMsg[1]);
       }
     });
     widget.gameManager.setGameReference(widget.game);
@@ -642,91 +638,6 @@ activateTeleporter() //Call when cats are in position''',
                       children: <Widget>[
                         Text(
                           'Sorry, you have not completed the level. Try again to win the level!',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: bodyFontSize),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-            ],
-          ),
-          actionsPadding: const EdgeInsets.fromLTRB(60, 20, 60, 20),
-          actions: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                OutlinedButton(
-                  child: const Text('Retry!'),
-                  onPressed: () {
-                    _retry();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showErrorModal(BuildContext context, String error) {
-    var bodyFontSize =
-        min(24.0, (MediaQuery.sizeOf(context).height / 768.0) * 15.0);
-
-    showDialog(
-      barrierDismissible: false,
-      barrierColor: const Color.fromARGB(168, 120, 120, 120),
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: const RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.white54,
-                width: 3.0,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          titlePadding: const EdgeInsets.all(10.0),
-          title: const Align(
-            alignment: Alignment(0.0, -2.0),
-            child: Text(
-              'ERROR!',
-              textHeightBehavior: TextHeightBehavior(
-                  leadingDistribution: TextLeadingDistribution.even),
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need it to be
-            children: <Widget>[
-              Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: Image.asset(modalBannerFailedPath),
-              ),
-              const SizedBox(height: 10),
-              Flexible(
-                flex: 1,
-                fit: FlexFit.loose,
-                child: Container(
-                  width: double
-                      .infinity, // Make the container fill the modal horizontally
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start, // Left justify the text
-                      children: <Widget>[
-                        Text(
-                          error,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: bodyFontSize),
