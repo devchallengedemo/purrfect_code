@@ -214,7 +214,7 @@ class _ThreeItemViewState extends State<MultiView>
                                     child: ElevatedButton(
                                       style: flatButtonStyle,
                                       onPressed: () {
-                                        //widget.callback(1);
+                                        widget.callback(1);
                                       },
                                       child: const Text(
                                         'Retry',

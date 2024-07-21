@@ -210,7 +210,6 @@ class GameManager {
 
     //early out if tile is not walkable
     if (westTile!.walkable == false) return;
-    //if (westTile!. == false) return;
 
     //check for box in south square
     if (westTile.box == true) {

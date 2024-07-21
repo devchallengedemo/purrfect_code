@@ -282,7 +282,7 @@ class SokobanGame extends FlameGame {
   Future<void> failedWithError(String error) async {
     _world.player.failure();
     await Future.delayed(
-        const Duration(milliseconds: 2000),
+        const Duration(milliseconds: 500),
         () => {
               onGameEnd('error:\n $error'),
               appState.setState(AppCurrentState.loaded)

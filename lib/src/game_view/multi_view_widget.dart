@@ -12,6 +12,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -81,14 +82,14 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
       if (score > thresholds.threeStars) stars++;
 
       if (value.contains('victory')) {
-        _showModalWindow(
+        _showVictoryModal(
             context, stars, score, steps, semicolons, braces, batteries);
       } else if (value.contains('failure')) {
-        _retry();
+        _showFailureModal(context);
       } else if (value.contains('error')) {
-        _retry();
-        //split out error string
-        //failure modal
+        LineSplitter ls = const LineSplitter();
+        var errorMsg = ls.convert(value);
+        _showErrorModal(context, errorMsg[1]);
       }
     });
     widget.gameManager.setGameReference(widget.game);
@@ -187,9 +188,9 @@ activateTeleporter();
           _ => ''
         };
 
-        //if (widget.editor.controller.text.isEmpty) {
-        widget.editor.setText(txt);
-        // }
+        if (widget.editor.controller.text.isEmpty) {
+          widget.editor.setText(txt);
+        }
 
         _loadLevelData(appState.getLevel(), () => _setAppStateLoaded());
       }
@@ -284,7 +285,7 @@ activateTeleporter() //Call when cats are in position''',
     logger.i('LEVEL CREATED!');
   }
 
-  void _showModalWindow(BuildContext context, int stars, int score, int steps,
+  void _showVictoryModal(BuildContext context, int stars, int score, int steps,
       int semicolons, int braces, int batteries) {
     _setAppStateLoaded();
 
@@ -376,13 +377,13 @@ activateTeleporter() //Call when cats are in position''',
               ),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           titlePadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          title: const Text(''),
           content: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need it to be
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Image.asset(mainImageAsset),
-              const SizedBox(height: 20),
+              Flexible(
+                fit: FlexFit.tight,
+                child: Image.asset(mainImageAsset),
+              ),
               IntrinsicHeight(
                 child: Row(
                   children: <Widget>[
@@ -417,8 +418,8 @@ activateTeleporter() //Call when cats are in position''',
                                 const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 0.0),
                             child: Table(
                               columnWidths: const <int, TableColumnWidth>{
-                                0: FlexColumnWidth(),
-                                1: FlexColumnWidth(),
+                                0: FixedColumnWidth(125),
+                                1: FixedColumnWidth(125),
                               },
                               defaultVerticalAlignment:
                                   TableCellVerticalAlignment.middle,
@@ -563,7 +564,7 @@ activateTeleporter() //Call when cats are in position''',
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
           actionsPadding: const EdgeInsets.fromLTRB(60, 20, 60, 20),
@@ -588,9 +589,174 @@ activateTeleporter() //Call when cats are in position''',
     );
   }
 
-  void _retry() {
-    widget.game.reset();
-    _setAppStateUnloaded();
+  void _showFailureModal(BuildContext context) {
+    var bodyFontSize =
+        min(24.0, (MediaQuery.sizeOf(context).height / 768.0) * 15.0);
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: const Color.fromARGB(168, 120, 120, 120),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          titlePadding: const EdgeInsets.all(10.0),
+          title: const Align(
+            alignment: Alignment(0.0, -2.0),
+            child: Text(
+              'Level Failed!',
+              textHeightBehavior: TextHeightBehavior(
+                  leadingDistribution: TextLeadingDistribution.even),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize
+                .min, // Make the column only as big as its children need it to be
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: Image.asset(modalBannerFailedPath),
+              ),
+              const SizedBox(height: 10),
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: Container(
+                  width: double
+                      .infinity, // Make the container fill the modal horizontally
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start, // Left justify the text
+                      children: <Widget>[
+                        Text(
+                          'Sorry, you have not completed the level. Try again to win the level!',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: bodyFontSize),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
+          actionsPadding: const EdgeInsets.fromLTRB(60, 20, 60, 20),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                OutlinedButton(
+                  child: const Text('Retry!'),
+                  onPressed: () {
+                    _retry();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showErrorModal(BuildContext context, String error) {
+    var bodyFontSize =
+        min(24.0, (MediaQuery.sizeOf(context).height / 768.0) * 15.0);
+
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: const Color.fromARGB(168, 120, 120, 120),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          titlePadding: const EdgeInsets.all(10.0),
+          title: const Align(
+            alignment: Alignment(0.0, -2.0),
+            child: Text(
+              'ERROR!',
+              textHeightBehavior: TextHeightBehavior(
+                  leadingDistribution: TextLeadingDistribution.even),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize
+                .min, // Make the column only as big as its children need it to be
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: Image.asset(modalBannerFailedPath),
+              ),
+              const SizedBox(height: 10),
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: Container(
+                  width: double
+                      .infinity, // Make the container fill the modal horizontally
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start, // Left justify the text
+                      children: <Widget>[
+                        Text(
+                          error,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: bodyFontSize),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
+          actionsPadding: const EdgeInsets.fromLTRB(60, 20, 60, 20),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                OutlinedButton(
+                  child: const Text('Retry!'),
+                  onPressed: () {
+                    _retry();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showTutorial(
@@ -640,17 +806,19 @@ activateTeleporter() //Call when cats are in position''',
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(5.0),
                   ),
-                  child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start, // Left justify the text
-                    children: <Widget>[
-                      Text(
-                        body,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: bodyFontSize),
-                      ),
-                    ],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start, // Left justify the text
+                      children: <Widget>[
+                        Text(
+                          body,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: bodyFontSize),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -674,5 +842,10 @@ activateTeleporter() //Call when cats are in position''',
         );
       },
     );
+  }
+
+  void _retry() {
+    widget.game.reset();
+    _setAppStateUnloaded();
   }
 }
