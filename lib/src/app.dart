@@ -19,8 +19,7 @@ import 'api_module/game_api.dart';
 import 'game_view/splash_screen.dart';
 
 class GameApp extends StatefulWidget {
-  const GameApp(
-      {super.key, required this.gameManager, required this.gameApi});
+  const GameApp({super.key, required this.gameManager, required this.gameApi});
 
   final GameManager gameManager;
   final GameApi gameApi;
@@ -36,8 +35,9 @@ class _GameAppState extends State<GameApp> {
         theme: ThemeData.dark(useMaterial3: true),
         initialRoute: '/',
         routes: {
-          '/': (context) => SplashScreen(),
-          'Z2FtZQ==': (context) => MultiViewWidget(gameManager: widget.gameManager),
+          '/': (context) => const SplashScreen(),
+          'Z2FtZQ==': (context) =>
+              MultiViewWidget(gameManager: widget.gameManager),
         });
   }
 }
