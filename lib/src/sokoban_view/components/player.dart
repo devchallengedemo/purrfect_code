@@ -66,9 +66,7 @@ class Player extends SpriteAnimationComponent with HasGameRef, GridElement {
     _audioPool = await FlameAudio.createPool('walk.mp3', maxPlayers: 4);
     await _loadAnimations().then((_) => {animation = _blink1Anim});
 
-    position.add(Vector2(
-        ((gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x),
-        ((gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y)));
+    position.add(getPosition());
   }
 
   Future<void> _loadAnimations() async {
