@@ -68,9 +68,7 @@ class Box extends SpriteAnimationComponent
     _audioPool = await FlameAudio.createPool('catscored.mp3',maxPlayers: 4);
     await _loadAnimations().then((_) => {animation = _boxClosed});
 
-    position.add(Vector2(
-        ((gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x),
-        ((gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y)));
+    position.add(getPosition());
     priority = getLayeredGridValue();
   }
 

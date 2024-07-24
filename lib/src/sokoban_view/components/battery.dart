@@ -49,9 +49,7 @@ class Battery extends SpriteAnimationComponent
     _audioPool = await FlameAudio.createPool('battery.mp3', maxPlayers: 2);
     await _loadAnimations().then((_) => {animation = _idleAnim});
 
-    position.add(Vector2(
-        ((gridPosition.x * gridPixelDimensions.x) + gridPixelOffset.x),
-        ((gridPosition.y * gridPixelDimensions.y) + gridPixelOffset.y)));
+    position.add(getPosition());
   }
 
   Future<void> _loadAnimations() async {
