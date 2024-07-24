@@ -22,7 +22,6 @@ class PageIndicator extends StatelessWidget {
     required this.onUpdateCurrentPageIndex,
   });
 
-  int _currentPageIndex = 0;
   final TabController tabController;
   final void Function(int) onUpdateCurrentPageIndex;
 
@@ -39,11 +38,10 @@ class PageIndicator extends StatelessWidget {
             splashRadius: 16.0,
             padding: EdgeInsets.zero,
             onPressed: () {
-              if (_currentPageIndex == 0) {
+              if (tabController.index == 0) {
                 return;
               }
-              _currentPageIndex--;
-              onUpdateCurrentPageIndex(_currentPageIndex);
+              onUpdateCurrentPageIndex(tabController.index - 1);
             },
             icon: const Icon(
               Icons.arrow_left_rounded,
@@ -59,11 +57,10 @@ class PageIndicator extends StatelessWidget {
             splashRadius: 16.0,
             padding: EdgeInsets.zero,
             onPressed: () {
-              if (_currentPageIndex == 3) {
+              if (tabController.index == 3) {
                 return;
               }
-              _currentPageIndex++;
-              onUpdateCurrentPageIndex(_currentPageIndex);
+              onUpdateCurrentPageIndex(tabController.index + 1);
             },
             icon: const Icon(
               Icons.arrow_right_rounded,

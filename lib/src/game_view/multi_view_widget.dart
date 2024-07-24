@@ -32,7 +32,6 @@ import 'multi_view.dart';
 class MultiViewWidget extends StatefulWidget {
   late final SokobanGame game;
   late final GameManager gameManager;
-  // ignore: prefer_const_constructors
 
   final editor = CommandEditor(
     path: '',
@@ -69,7 +68,7 @@ class _MultiviewWidgetState extends State<MultiViewWidget>
   final textController = TextEditingController();
   late PageController _pageViewController;
   late TabController _introTabController;
-  late Function callback;
+  late void Function(int) callback;
 
   @override
   void initState() {
@@ -537,7 +536,6 @@ activateTeleporter() //Call when cats are in position''',
                       flex: 1,
                       child: Column(
                         children: [
-                          // ignore: sized_box_for_whitespace
                           Container(
                             height: 96,
                             child: Image.asset(badgeImageAsset),
@@ -788,13 +786,11 @@ activateTeleporter() //Call when cats are in position''',
               ),
               borderRadius: BorderRadius.all(Radius.circular(5))),
           content: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need to be
+            // Make the column only as big as its children need it to be
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              // ignore: sized_box_for_whitespace
               Padding(
                 padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
-                // ignore: sized_box_for_whitespace
                 child: Container(
                   width: 600,
                   height: calculatedHeight * 0.7,

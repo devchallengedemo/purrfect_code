@@ -24,15 +24,14 @@ import '/src/editor/editor.dart';
 import '/src/log/log.dart';
 import '/src/sokoban_view/sokoban_game.dart';
 
-// ignore: must_be_immutable
 class MultiView extends StatefulWidget {
-  BuildContext context;
-  SokobanGame game;
-  CommandEditor editor;
-  void Function(int) callback;
-  bool showCommandEditor = true;
+  final BuildContext context;
+  final SokobanGame game;
+  final CommandEditor editor;
+  final void Function(int) callback;
+  final bool showCommandEditor = true;
 
-  MultiView({
+  const MultiView({
     super.key,
     required this.context,
     required this.game,
