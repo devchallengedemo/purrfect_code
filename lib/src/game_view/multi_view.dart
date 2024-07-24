@@ -52,7 +52,7 @@ class _ThreeItemViewState extends State<MultiView>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: 4);
+    _tabController = TabController(vsync: this, length: 3);
   }
 
   @override
@@ -143,6 +143,17 @@ class _ThreeItemViewState extends State<MultiView>
         borderRadius: BorderRadius.all(Radius.circular(2)),
       ),
     );
+
+    if (appState.showIntro()) {
+      if (!appState.introPopupDisplayed()) {
+        appState.setIntroDisplayed();
+        Future.delayed(
+            const Duration(milliseconds: 100),
+            () => {
+                  widget.callback(4),
+                });
+      }
+    }
 
     return Column(
       children: [
