@@ -12,12 +12,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import 'level.dart';
-import 'level_tile.dart';
-import 'player.dart';
 import '/src/helpers/enums.dart';
 import '/src/log/log.dart';
 import '/src/sokoban_view/sokoban_game.dart';
+import 'level.dart';
+import 'level_tile.dart';
+import 'player.dart';
 
 class GameManager {
   Level? level;
@@ -29,8 +29,8 @@ class GameManager {
   void setGameReference(SokobanGame ref) => game = ref;
 
   List<LevelTile> processLevelTilesFromJson(dynamic levelArray) {
-    var data = List<int>.from(levelArray);
-    List<LevelTile> result = [];
+    var data = List<int>.from(levelArray as List);
+    var result = <LevelTile>[];
     for (var index = 0; index < data.length; index++) {
       var levelTile = LevelTile(data[index] == 0 ? false : true);
       levelTile.goal = data[index] & 2 == 2;
@@ -239,7 +239,7 @@ class GameManager {
     }
   }
 
-  void teleport(Function(String)? onComplete) {
+  void teleport(void Function(String)? onComplete) {
     var incompleteGoalCount = 0;
     if (level == null) {
       logger.e('NULL LEVEL');

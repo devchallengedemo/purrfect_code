@@ -19,8 +19,8 @@ class Player {
 
   Player(this.xPos, this.yPos);
 
-  incrementBatteryCount() => {_batteryCount++};
-  decrementBatteryCount() => {_batteryCount--};
+  void incrementBatteryCount() => _batteryCount++;
+  void decrementBatteryCount() => _batteryCount--;
   int getBatteryCount() {
     return _batteryCount;
   }

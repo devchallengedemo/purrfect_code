@@ -1,3 +1,5 @@
+// ignore_for_file: unawaited_futures
+
 /*
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,10 +15,12 @@ limitations under the License.
 */
 
 import 'dart:convert';
+
 import 'package:flame/camera.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/foundation.dart';
+
 import '/src/app_state.dart';
 import '/src/log/log.dart';
 import 'components/world.dart';
@@ -192,12 +196,12 @@ class SokobanGame extends FlameGame {
     camera.world = null;
     remove(_world);
     camera = CameraComponent.withFixedResolution(width: 256, height: 240);
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future<void>.delayed(const Duration(milliseconds: 100));
     _world = SokobanWorld();
     camera.world = _world;
     camera.moveTo(Vector2(128, 120));
     add(_world);
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future<void>.delayed(const Duration(milliseconds: 1000));
     _cancel = false;
   }
 
@@ -206,7 +210,7 @@ class SokobanGame extends FlameGame {
   }
 
   void parseCommandQueue(String queue) {
-    LineSplitter ls = const LineSplitter();
+    var ls = const LineSplitter();
     processList(ls.convert(queue));
   }
 
@@ -214,7 +218,7 @@ class SokobanGame extends FlameGame {
     FlameAudio.play('start.mp3', volume: appState.volume);
     var perMoveTimeMs = 500;
     var moveSpeed = Duration(milliseconds: perMoveTimeMs);
-    await Future.delayed(const Duration(milliseconds: 2050));
+    await Future<void>.delayed(const Duration(milliseconds: 2050));
 
     for (var i = 0; i < commandSet.length; i++) {
       logger.i(commandSet[i]);
@@ -222,7 +226,7 @@ class SokobanGame extends FlameGame {
       if (_cancel) {
         break;
       } else if (commandSet[i].contains('step')) {
-        await Future.delayed(moveSpeed);
+        await Future<void>.delayed(moveSpeed);
       } else if (commandSet[i].contains('Player')) {
         movePlayer(commandSet[i]);
       } else if (commandSet[i].contains('Box')) {
@@ -231,7 +235,7 @@ class SokobanGame extends FlameGame {
         removeBattery(commandSet[i]);
       } else if (commandSet[i].contains('teleport')) {
         //wait to teleport
-        await Future.delayed(const Duration(milliseconds: 1500));
+        await Future<void>.delayed(const Duration(milliseconds: 1500));
         FlameAudio.play('catteleport.mp3', volume: appState.volume);
         teleport();
       } else if (commandSet[i].contains('Victory')) {
@@ -262,30 +266,26 @@ class SokobanGame extends FlameGame {
 
   Future<void> victory() async {
     _world.player.victory();
-    await Future.delayed(
-        const Duration(milliseconds: 2000),
-        () => {
-              FlameAudio.play('victory.mp3', volume: appState.volume),
-              onGameEnd('victory'),
-              appState.setState(AppCurrentState.loaded)
-            });
+    await Future<void>.delayed(const Duration(milliseconds: 2000), () {
+      FlameAudio.play('victory.mp3', volume: appState.volume);
+      onGameEnd('victory');
+      appState.setState(AppCurrentState.loaded);
+    });
   }
 
   Future<void> failed() async {
     _world.player.failure();
-    await Future.delayed(
-        const Duration(milliseconds: 2000),
-        () =>
-            {onGameEnd('failure'), appState.setState(AppCurrentState.loaded)});
+    await Future<void>.delayed(const Duration(milliseconds: 2000), () {
+      onGameEnd('failure');
+      appState.setState(AppCurrentState.loaded);
+    });
   }
 
   Future<void> failedWithError(String error) async {
     _world.player.failure();
-    await Future.delayed(
-        const Duration(milliseconds: 500),
-        () => {
-              onGameEnd('error:\n $error'),
-              appState.setState(AppCurrentState.loaded)
-            });
+    await Future<void>.delayed(const Duration(milliseconds: 500), () {
+      onGameEnd('error:\n $error');
+      appState.setState(AppCurrentState.loaded);
+    });
   }
 }

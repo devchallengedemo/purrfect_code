@@ -19,13 +19,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:highlight/languages/javascript.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '/src/app_state.dart';
-import '/src/game_manager/level_data.dart';
 import '/src/editor/editor.dart';
-import '/src/game_manager/level_tile.dart';
 import '/src/game_manager/game_manager.dart';
-import '/src/sokoban_view/sokoban_game.dart';
+import '/src/game_manager/level_data.dart';
 import '/src/log/log.dart';
+import '/src/sokoban_view/sokoban_game.dart';
 import 'multi_view.dart';
 
 class MultiViewWidget extends StatefulWidget {
@@ -47,7 +47,7 @@ class MultiViewWidget extends StatefulWidget {
   });
 
   @override
-  createState() => _MultiviewWidgetState();
+  State<MultiViewWidget> createState() => _MultiviewWidgetState();
 }
 
 class ScoringThresholds {
@@ -63,19 +63,19 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
       'assets/ui_images/purrfect_code_tutorial.png';
 
   ScoringThresholds thresholds = ScoringThresholds();
-  late Function(int) callback;
+  late void Function(int) callback;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     widget.game = SokobanGame((value) {
-      int steps = widget.gameManager.steps;
-      int semicolons = widget.editor.getSemicolonCount();
-      int braces = widget.editor.getBracesCount();
-      int batteries = widget.gameManager.player!.getBatteryCount();
-      int score =
+      var steps = widget.gameManager.steps;
+      var semicolons = widget.editor.getSemicolonCount();
+      var braces = widget.editor.getBracesCount();
+      var batteries = widget.gameManager.player!.getBatteryCount();
+      var score =
           100 - (semicolons * 2) - (braces * 2) - steps + (batteries * 5);
-      int stars = 0;
+      var stars = 0;
       if (score > thresholds.oneStar) stars++;
       if (score > thresholds.twoStars) stars++;
       if (score > thresholds.threeStars) stars++;
@@ -91,7 +91,7 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
   }
 
   @override
-  dispose() {
+  void dispose() {
     super.dispose();
   }
 
@@ -187,7 +187,7 @@ activateTeleporter();
           widget.editor.setText(txt);
         }
 
-        _loadLevelData(appState.getLevel(), () => _setAppStateLoaded());
+        _loadLevelData(appState.getLevel(), _setAppStateLoaded);
       }
       return Container();
     } else {
@@ -195,7 +195,7 @@ activateTeleporter();
         context: context,
         game: widget.game,
         editor: widget.editor,
-        callback: (value) {
+        callback: (int value) {
           switch (value) {
             case 0:
               _setAppStateRunning();
@@ -242,7 +242,8 @@ activateTeleporter() //Call when cats are in position''',
     setState(() => appState.setState(AppCurrentState.running));
   }
 
-  _loadLevelData(int level, Function() setAppDataLoaded) async {
+  Future<void> _loadLevelData(
+      int level, void Function() setAppDataLoaded) async {
     var path = switch (level) {
       1 => 'assets/level_base/level01.json',
       2 => 'assets/level_base/level02.json',
@@ -252,7 +253,7 @@ activateTeleporter() //Call when cats are in position''',
       _ => ''
     };
 
-    String response = await rootBundle.loadString(path);
+    var response = await rootBundle.loadString(path);
     if (response.isEmpty) {
       logger.e('Failed to load json data');
       return;
@@ -260,7 +261,7 @@ activateTeleporter() //Call when cats are in position''',
     var levelData = LevelData(response);
     var metaData = levelData.levelMetaData;
 
-    List<LevelTile> processedTiles = widget.gameManager
+    var processedTiles = widget.gameManager
         .processLevelTilesFromJson(levelData.levelArray.tiles);
 
     widget.gameManager.createLevel(
@@ -336,12 +337,12 @@ activateTeleporter() //Call when cats are in position''',
             },
           );
 
-    String mainImageAsset = switch (appState.getLevel()) {
+    var mainImageAsset = switch (appState.getLevel()) {
       5 => 'assets/ui_images/purrfect_code_game_victory.png',
       _ => 'assets/ui_images/purrfect_code_level_victory.png',
     };
 
-    String badgeImageAsset = switch (appState.getLevel()) {
+    var badgeImageAsset = switch (appState.getLevel()) {
       1 => 'assets/ui_images/level_1_badge.png',
       2 => 'assets/ui_images/level_2_badge.png',
       3 => 'assets/ui_images/level_3_badge.png',
@@ -350,7 +351,7 @@ activateTeleporter() //Call when cats are in position''',
       _ => 'assets/ui_images/level_1_badge.png',
     };
 
-    String badgeUrl = switch (appState.getLevel()) {
+    var badgeUrl = switch (appState.getLevel()) {
       1 => 'https://developers.google.com/purrfect-code/level-1',
       2 => 'https://developers.google.com/purrfect-code/level-2',
       3 => 'https://developers.google.com/purrfect-code/level-3',
@@ -359,7 +360,7 @@ activateTeleporter() //Call when cats are in position''',
       _ => 'assets/ui_images/level_1_badge.png',
     };
 
-    showDialog(
+    showDialog<void>(
       barrierDismissible: false,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
@@ -588,7 +589,7 @@ activateTeleporter() //Call when cats are in position''',
     var bodyFontSize =
         min(24.0, (MediaQuery.sizeOf(context).height / 768.0) * 15.0);
 
-    showDialog(
+    showDialog<void>(
       barrierDismissible: false,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
@@ -610,8 +611,8 @@ activateTeleporter() //Call when cats are in position''',
             ),
           ),
           content: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need it to be
+            // Make the column only as big as its children need it to be
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Flexible(
                 flex: 1,
@@ -623,8 +624,8 @@ activateTeleporter() //Call when cats are in position''',
                 flex: 1,
                 fit: FlexFit.loose,
                 child: Container(
-                  width: double
-                      .infinity, // Make the container fill the modal horizontally
+                  // Make the container fill the modal horizontally
+                  width: double.infinity,
                   padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
@@ -636,7 +637,8 @@ activateTeleporter() //Call when cats are in position''',
                           CrossAxisAlignment.start, // Left justify the text
                       children: <Widget>[
                         Text(
-                          'Sorry, you have not completed the level. Try again to win the level!',
+                          'Sorry, you have not completed the level. '
+                          'Try again to win the level!',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: bodyFontSize),
@@ -674,7 +676,7 @@ activateTeleporter() //Call when cats are in position''',
     var bodyFontSize =
         min(24.0, (MediaQuery.sizeOf(context).height / 768.0) * 15.0);
 
-    showDialog(
+    showDialog<void>(
       barrierDismissible: true,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
@@ -696,8 +698,8 @@ activateTeleporter() //Call when cats are in position''',
             ),
           ),
           content: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need it to be
+            // Make the column only as big as its children need it to be
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Flexible(
                 flex: 1,
@@ -709,8 +711,8 @@ activateTeleporter() //Call when cats are in position''',
                 flex: 1,
                 fit: FlexFit.loose,
                 child: Container(
-                  width: double
-                      .infinity, // Make the container fill the modal horizontally
+                  // Make the container fill the modal horizontally
+                  width: double.infinity,
                   padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),

@@ -28,10 +28,12 @@ class Level {
     return index < levelTiles.length && index >= 0 ? levelTiles[index] : null;
   }
 
-  setWalkableValue(int index, bool walkable) =>
+  bool setWalkableValue(int index, bool walkable) =>
       levelTiles[index].walkable = walkable;
-  setBoxValue(int index, bool hasBox) => levelTiles[index].box = hasBox;
-  setGoalValue(int index, bool hasGoal) => levelTiles[index].goal = hasGoal;
-  setKeyValue(int index, bool hasCoin) => levelTiles[index].coin = hasCoin;
-  setDoorValue(int index, bool hasDoor) => levelTiles[index].door = hasDoor;
+  bool setBoxValue(int index, bool hasBox) => levelTiles[index].box = hasBox;
+  bool setGoalValue(int index, bool hasGoal) =>
+      levelTiles[index].goal = hasGoal;
+  bool setKeyValue(int index, bool hasCoin) => levelTiles[index].coin = hasCoin;
+  bool setDoorValue(int index, bool hasDoor) =>
+      levelTiles[index].door = hasDoor;
 }

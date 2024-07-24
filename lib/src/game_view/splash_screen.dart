@@ -14,8 +14,10 @@ limitations under the License.
 
 import 'dart:convert';
 import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import '/src/game_view/page_indicator.dart';
 import '../log/log.dart';
 
@@ -49,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var widthOffset = width * 0.66;
@@ -103,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen>
                   // ignore: sized_box_for_whitespace
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
-                    child: Container(
+                    child: SizedBox(
                       width: 700,
                       height: calculatedHeight * 0.7,
                       child: Column(
@@ -260,7 +262,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (text == str) {
       Navigator.pushNamed(context, 'Z2FtZQ==');
     } else {
-      showDialog(
+      showDialog<void>(
         barrierColor: const Color.fromARGB(168, 120, 120, 120),
         context: context,
         builder: (BuildContext context) {

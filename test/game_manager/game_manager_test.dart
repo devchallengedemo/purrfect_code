@@ -19,12 +19,12 @@ import 'package:purrfect_code/src/helpers/enums.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  GameManager gameManager = GameManager(); //_MockGameManager();
+  var gameManager = GameManager(); //_MockGameManager();
   late LevelData levelData;
   late LevelMetadata metaData;
 
   setUpAll(() async {
-    String response = """
+    var response = '''
 {
     "levelMetadata": {
         "levelName": "LEVEL TEST",
@@ -51,7 +51,7 @@ void main() {
         ]
     }
 }
-""";
+''';
     levelData = LevelData(response);
     metaData = levelData.levelMetaData;
   });
@@ -174,9 +174,9 @@ void main() {
       'Teleport boxes',
       () {
         var boxesTeleported = false;
-        gameManager.teleport((value) => {
-              boxesTeleported = value.contains('Victory'),
-            });
+        gameManager.teleport(
+          (value) => boxesTeleported = value.contains('Victory'),
+        );
         expect(boxesTeleported, true);
         expect(gameManager.steps, 14);
       },
