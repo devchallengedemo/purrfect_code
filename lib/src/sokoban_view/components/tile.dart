@@ -13,12 +13,14 @@ limitations under the License.
 */
 
 import 'package:flame/components.dart';
+
 import '/src/sokoban_view/components/grided.dart';
 
 class Tile extends SpriteComponent with HasGameRef, GridElement {
   final String spriteName;
 
-  Tile(this.spriteName, tilePosition, tileSize, tileGridPosition, tileLayer)
+  Tile(this.spriteName, Vector2 tilePosition, Vector2 tileSize,
+      Vector2 tileGridPosition, int tileLayer)
       : super(
           size: Vector2(tileSize.x, tileSize.y),
         ) {
@@ -33,8 +35,8 @@ class Tile extends SpriteComponent with HasGameRef, GridElement {
     var img = game.images.fromCache(spriteName);
     sprite = Sprite(img);
     position = Vector2(
-      (spritePosition.x * size.x),
-      (spritePosition.y * size.y),
+      spritePosition.x * size.x,
+      spritePosition.y * size.y,
     );
     priority = getLayeredGridValue();
   }

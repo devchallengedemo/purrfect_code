@@ -17,18 +17,19 @@ import 'dart:math';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '/src/app_state.dart';
-import '/src/log/log.dart';
+
 import '/src/api_module/game_api.dart';
-import '/src/sokoban_view/sokoban_game.dart';
+import '/src/app_state.dart';
 import '/src/editor/editor.dart';
+import '/src/log/log.dart';
+import '/src/sokoban_view/sokoban_game.dart';
 
 // ignore: must_be_immutable
 class MultiView extends StatefulWidget {
   BuildContext context;
   SokobanGame game;
   CommandEditor editor;
-  Function callback;
+  void Function(int) callback;
   bool showCommandEditor = true;
 
   MultiView({
@@ -56,18 +57,18 @@ class _ThreeItemViewState extends State<MultiView>
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     var volumeIcon =
         appState.muted() ? Icons.volume_mute_rounded : Icons.volume_up_rounded;
-    String codeTxt =
+    var codeTxt =
         appState.state == AppCurrentState.running ? 'Running...' : 'Run Code';
-    const double lowerBarHeight = 72;
-    double lowerBarInset = width / 64.0;
-    double gameViewWidth = 256;
-    double gameViewHeight = 240;
-    double minEditorWidth = 500;
+    const lowerBarHeight = 72.0;
+    var lowerBarInset = width / 64.0;
+    var gameViewWidth = 256.0;
+    var gameViewHeight = 240.0;
+    var minEditorWidth = 500;
 
     var prevButton = appState.getLevel() == 1
         ? TextButton(
@@ -132,11 +133,11 @@ class _ThreeItemViewState extends State<MultiView>
       gameViewHeight = 960;
     }
 
-    var editorWidth = min(1000.0, (width - gameViewWidth - 64));
+    var editorWidth = min(1000.0, width - gameViewWidth - 64);
     var geminiHeight = height - gameViewHeight - 48;
     if (geminiHeight < gameViewHeight * 2) geminiHeight = gameViewHeight * 2.0;
 
-    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+    final flatButtonStyle = TextButton.styleFrom(
       minimumSize: const Size(258, 38),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -213,9 +214,7 @@ class _ThreeItemViewState extends State<MultiView>
                                   Tab(
                                     child: ElevatedButton(
                                       style: flatButtonStyle,
-                                      onPressed: () {
-                                        _runCode();
-                                      },
+                                      onPressed: _runCode,
                                       child: Text(codeTxt,
                                           overflow: TextOverflow.clip,
                                           softWrap: false),

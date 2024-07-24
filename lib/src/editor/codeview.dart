@@ -15,6 +15,7 @@ limitations under the License.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
+
 import 'theme.dart';
 
 class CodeView extends StatelessWidget {
@@ -45,7 +46,7 @@ class CodeView extends StatelessWidget {
               child: CodeField(
                 textStyle:
                     const TextStyle(fontFamily: 'ptmono', fontSize: 18.0),
-                //note: hiding line numbers due to issues with gutter text alignment;
+                //note: hiding line # due to issues with gutter text alignment;
                 //https://github.com/akvelon/flutter-code-editor/issues/260
                 gutterStyle: const GutterStyle(
                   width: 0.0,

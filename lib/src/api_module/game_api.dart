@@ -13,13 +13,14 @@ limitations under the License.
 */
 
 @JS()
-library game_api.js;
+library;
 
 import 'dart:js_interop';
-import 'import_js_lib.dart';
-import '/src/log/log.dart';
+
 import '/src/game_manager/game_manager.dart';
 import '/src/helpers/enums.dart';
+import '/src/log/log.dart';
+import 'import_js_lib.dart';
 
 //describes an interoperable function with callback into Dart
 @JS('moveNorth')
@@ -61,40 +62,40 @@ class GameApi {
   }
 
   void buildInterop() {
-    _moveNorth = (dartMoveNorth).toJS;
-    _moveSouth = (dartMoveSouth).toJS;
-    _moveEast = (dartMoveEast).toJS;
-    _moveWest = (dartMoveWest).toJS;
-    _activateTeleporter = (dartActivateTeleporter).toJS;
-    _detectTiles = (dartDetectTiles).toJS;
-    _errorRoute = (dartErrorRoute).toJS;
-    _completionHit = (dartCompletionHit).toJS;
+    _moveNorth = dartMoveNorth.toJS;
+    _moveSouth = dartMoveSouth.toJS;
+    _moveEast = dartMoveEast.toJS;
+    _moveWest = dartMoveWest.toJS;
+    _activateTeleporter = dartActivateTeleporter.toJS;
+    _detectTiles = dartDetectTiles.toJS;
+    _errorRoute = dartErrorRoute.toJS;
+    _completionHit = dartCompletionHit.toJS;
   }
 
   void dartMoveNorth() {
-    logger.i("moveNorth");
+    logger.i('moveNorth');
     _gameManager.move(Direction.north);
   }
 
   void dartMoveSouth() {
-    logger.i("moveSouth");
+    logger.i('moveSouth');
     _gameManager.move(Direction.south);
   }
 
   void dartMoveEast() {
-    logger.i("moveEast");
+    logger.i('moveEast');
     _gameManager.move(Direction.east);
   }
 
   void dartMoveWest() {
-    logger.i("moveWest");
+    logger.i('moveWest');
     _gameManager.move(Direction.west);
   }
 
   void dartActivateTeleporter() {
-    _gameManager.teleport((msg) => {
-          logger.i(msg),
-        });
+    _gameManager.teleport(
+      (msg) => logger.i(msg),
+    );
   }
 
   String dartDetectTiles(String text) {

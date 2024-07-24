@@ -16,7 +16,7 @@ import 'dart:convert';
 
 class LevelData {
   final Map<String, Object?> _json;
-  LevelData(String json) : _json = jsonDecode(json);
+  LevelData(String json) : _json = jsonDecode(json) as Map<String, dynamic>;
 
   LevelMetadata get levelMetaData {
     if (_json
@@ -32,8 +32,8 @@ class LevelData {
             'oneStar': int oneStar
           }
         }) {
-      return (LevelMetadata(levelName, tileCountWidth, tileCountHeight,
-          playerStartX, playerStartY, threeStars, twoStars, oneStar));
+      return LevelMetadata(levelName, tileCountWidth, tileCountHeight,
+          playerStartX, playerStartY, threeStars, twoStars, oneStar);
     } else {
       throw const FormatException('Unexpected JSON');
     }
@@ -41,7 +41,7 @@ class LevelData {
 
   LevelArray get levelArray {
     if (_json case {'levelArray': {'tiles': dynamic tiles}}) {
-      return (LevelArray(tiles));
+      return LevelArray(tiles);
     } else {
       throw const FormatException('Unexpected JSON');
     }
