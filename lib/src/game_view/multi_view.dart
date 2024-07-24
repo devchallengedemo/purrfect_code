@@ -147,10 +147,9 @@ class _ThreeItemViewState extends State<MultiView>
       if (!appState.introPopupDisplayed()) {
         appState.setIntroDisplayed();
         Future.delayed(
-            const Duration(milliseconds: 100),
-            () => {
-                  widget.callback(4),
-                });
+          const Duration(milliseconds: 100),
+          () => widget.callback(4),
+        );
       }
     }
 
