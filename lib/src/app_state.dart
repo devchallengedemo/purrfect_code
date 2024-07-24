@@ -41,11 +41,11 @@ class AppState {
 
   bool _showIntro = true;
   bool showIntro() => _showIntro;
-  introComplete() {
+  void introComplete() {
     _showIntro = false;
   }
 
   bool _introPopDisplayed = false;
-  introPopupDisplayed() => _introPopDisplayed;
-  setIntroDisplayed() => _introPopDisplayed = true;
+  bool introPopupDisplayed() => _introPopDisplayed;
+  void setIntroDisplayed() => _introPopDisplayed = true;
 }

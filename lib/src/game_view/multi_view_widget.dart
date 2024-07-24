@@ -18,13 +18,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:highlight/languages/javascript.dart';
-import 'package:purrfect_code/src/game_view/page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/src/app_state.dart';
 import '/src/editor/editor.dart';
 import '/src/game_manager/game_manager.dart';
 import '/src/game_manager/level_data.dart';
+import '/src/game_view/page_indicator.dart';
 import '/src/log/log.dart';
 import '/src/sokoban_view/sokoban_game.dart';
 import 'multi_view.dart';
@@ -69,8 +69,7 @@ class _MultiviewWidgetState extends State<MultiViewWidget>
   final textController = TextEditingController();
   late PageController _pageViewController;
   late TabController _introTabController;
-  late Function(int) callback;
-
+  late Function callback;
 
   @override
   void initState() {
@@ -770,13 +769,13 @@ activateTeleporter() //Call when cats are in position''',
   }
 
   void _showIntro(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
     var maxBoxHeight = 600.0;
     var calculatedHeight =
         min(maxBoxHeight, MediaQuery.of(context).size.height * 0.4);
     var placeHolderImage = 'assets/ui_images/placeholder.png';
 
-    showDialog(
+    showDialog<void>(
       barrierDismissible: true,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
       context: context,
@@ -790,7 +789,7 @@ activateTeleporter() //Call when cats are in position''',
               borderRadius: BorderRadius.all(Radius.circular(5))),
           content: Column(
             mainAxisSize: MainAxisSize
-                .min, // Make the column only as big as its children need it to be
+                .min, // Make the column only as big as its children need to be
             children: <Widget>[
               // ignore: sized_box_for_whitespace
               Padding(

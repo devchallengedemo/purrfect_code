@@ -14,6 +14,7 @@ limitations under the License.
 
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class PageIndicator extends StatelessWidget {
   PageIndicator({
     super.key,
@@ -27,7 +28,7 @@ class PageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.all(4.0),
