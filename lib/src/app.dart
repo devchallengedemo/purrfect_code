@@ -35,7 +35,7 @@ class _GameAppState extends State<GameApp> {
         theme: ThemeData.dark(useMaterial3: true),
         initialRoute: '/',
         routes: {
-          '/': (context) => const SplashScreen(),
+          '/': (context) => SplashScreen(),
           'Z2FtZQ==': (context) =>
               MultiViewWidget(gameManager: widget.gameManager),
         });
