@@ -13,6 +13,7 @@ limitations under the License.
 */
 
 import 'package:flutter/material.dart';
+
 import '/src/game_manager/game_manager.dart';
 import '/src/game_view/multi_view_widget.dart';
 import 'api_module/game_api.dart';
@@ -35,7 +36,7 @@ class _GameAppState extends State<GameApp> {
         theme: ThemeData.dark(useMaterial3: true),
         initialRoute: '/',
         routes: {
-          '/': (context) => const SplashScreen(),
+          '/': (context) => SplashScreen(),
           'Z2FtZQ==': (context) =>
               MultiViewWidget(gameManager: widget.gameManager),
         });
