@@ -14,50 +14,24 @@ limitations under the License.
 
 import 'dart:convert';
 import 'dart:math';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import '/src/game_view/page_indicator.dart';
 import '../log/log.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
+class SplashScreen extends StatelessWidget {
+  SplashScreen({super.key});
   final textController = TextEditingController();
-  late PageController _pageViewController;
-  late TabController _tabController;
-  int _currentPageIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageViewController = PageController();
-    _tabController = TabController(length: 4, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _pageViewController.dispose();
-    _tabController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var widthOffset = width * 0.66;
-    var heightOffset = height * 0.25;
-    var maxBoxHeight = 600.0;
+    var heightOffset = height * 0.5;
+    var maxBoxHeight = 280.0;
     var calculatedHeight =
-        min(maxBoxHeight, MediaQuery.of(context).size.height * 0.4);
-    var placeHolderImage = 'assets/ui_images/placeholder.png';
+        min(maxBoxHeight, MediaQuery.of(context).size.height * 0.3);
+    var calculatedFontSize = 24.0 * (calculatedHeight / maxBoxHeight);
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -73,9 +47,9 @@ class _SplashScreenState extends State<SplashScreen>
           children: [
             SizedBox(height: heightOffset),
             Container(
-              width: min(widthOffset, 720),
+              width: min(widthOffset, 500),
               height: 40,
-              color: const Color.fromARGB(192, 32, 32, 32),
+              color: Colors.black54,
               child: TextField(
                 controller: textController,
                 autocorrect: false,
@@ -88,130 +62,30 @@ class _SplashScreenState extends State<SplashScreen>
             ),
             const SizedBox(height: 40),
             Container(
-              width: 732,
+              width: 500,
               height: calculatedHeight,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(192, 30, 30, 30),
+                color: Colors.white,
                 border: Border.all(
                   color: Colors.black,
                   width: 2,
                 ),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
                 children: <Widget>[
-                  // ignore: sized_box_for_whitespace
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
-                    child: Container(
-                      width: 700,
-                      height: calculatedHeight * 0.7,
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: PageView(
-                              controller: _pageViewController,
-                              onPageChanged: _handlePageViewChanged,
-                              children: <Widget>[
-                                Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text('Cat-rescuing Javascript',
-                                          style: textTheme.titleLarge),
-                                      const SizedBox(height: 10),
-                                      Flexible(
-                                        child: Image.asset(placeHolderImage),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            24.0, 8.0, 24.0, 8.0),
-                                        child: Text(
-                                            '''You need to program the robot to save adorable cats stranded in the spaceship. Your weapon? JavaScript! Write the most efficient code to rescue them all.
+                    child: Text(
+                      '''Purrfect Code is a multi-level coding challenge where developers program a robot to efficiently move boxes with cats to safety, emphasizing code efficiency.
 ''',
-                                            style: textTheme.bodyMedium),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text('Understanding Your Score',
-                                          style: textTheme.titleLarge),
-                                      const SizedBox(height: 10),
-                                      Flexible(
-                                        child: Image.asset(placeHolderImage),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            24.0, 8.0, 24.0, 8.0),
-                                        child: Text(
-                                            '''Fewer moves, less code, more points! Master the art of efficient coding to boost your score and show off your skills.
-''',
-                                            style: textTheme.bodyMedium),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text('Conquer Stages, Claim Badges',
-                                          style: textTheme.titleLarge),
-                                      const SizedBox(height: 10),
-                                      Flexible(
-                                        child: Image.asset(placeHolderImage),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            24.0, 8.0, 24.0, 8.0),
-                                        child: Text(
-                                            '''After each stage, claim badges to showcase your coding prowess on your Developer Program profile. Share your brilliant solutions on social media and tag Google for Developers to get a chance to be showcased and inspire other players.
-''',
-                                            style: textTheme.bodyMedium),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text('Your Progress, Your Choice',
-                                          style: textTheme.titleLarge),
-                                      const SizedBox(height: 10),
-                                      Flexible(
-                                        child: Image.asset(placeHolderImage),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            24.0, 8.0, 24.0, 8.0),
-                                        child: Text(
-                                            '''We value your privacy and don't store game data. This means refreshing the page may reset your progress, but you can always jump back to your favorite stage!
-''',
-                                            style: textTheme.bodyMedium),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          PageIndicator(
-                            tabController: _tabController,
-                            currentPageIndex: _currentPageIndex,
-                            onUpdateCurrentPageIndex: _updateCurrentPageIndex,
-                            isOnDesktopAndWeb: _isOnDesktopAndWeb,
-                          ),
-                        ],
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: calculatedFontSize,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
                   ),
                   OutlinedButton(
                     style: ButtonStyle(
@@ -283,41 +157,6 @@ class _SplashScreenState extends State<SplashScreen>
           );
         },
       );
-    }
-  }
-
-  void _handlePageViewChanged(int currentPageIndex) {
-    if (!_isOnDesktopAndWeb) {
-      return;
-    }
-    _tabController.index = currentPageIndex;
-    setState(() {
-      _currentPageIndex = currentPageIndex;
-    });
-  }
-
-  void _updateCurrentPageIndex(int index) {
-    _tabController.index = index;
-    _pageViewController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  bool get _isOnDesktopAndWeb {
-    if (kIsWeb) {
-      return true;
-    }
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.macOS:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        return true;
-      case TargetPlatform.android:
-      case TargetPlatform.iOS:
-      case TargetPlatform.fuchsia:
-        return false;
     }
   }
 }
