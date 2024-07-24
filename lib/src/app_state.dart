@@ -38,4 +38,14 @@ class AppState {
   }
 
   bool muted() => _muted;
+
+  bool _showIntro = true;
+  bool showIntro() => _showIntro;
+  introComplete() {
+    _showIntro = false;
+  }
+
+  bool _introPopDisplayed = false;
+  introPopupDisplayed() => _introPopDisplayed;
+  setIntroDisplayed() => _introPopDisplayed = true;
 }

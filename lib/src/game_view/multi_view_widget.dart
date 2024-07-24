@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:highlight/languages/javascript.dart';
+import 'package:purrfect_code/src/game_view/page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '/src/app_state.dart';
 import '/src/game_manager/level_data.dart';
@@ -56,18 +57,24 @@ class ScoringThresholds {
   int oneStar = 0;
 }
 
-class _MultiviewWidgetState extends State<MultiViewWidget> {
+class _MultiviewWidgetState extends State<MultiViewWidget>
+    with TickerProviderStateMixin {
   bool setupComplete = false;
   String modalBannerFailedPath = 'assets/ui_images/purrfect_code_failure.png';
   String modalBannerTutorialPath =
       'assets/ui_images/purrfect_code_tutorial.png';
 
   ScoringThresholds thresholds = ScoringThresholds();
+  final textController = TextEditingController();
+  late PageController _pageViewController;
+  late TabController _introTabController;
   late Function(int) callback;
 
   @override
   initState() {
     super.initState();
+    _pageViewController = PageController();
+    _introTabController = TabController(length: 4, vsync: this);
     widget.game = SokobanGame((value) {
       int steps = widget.gameManager.steps;
       int semicolons = widget.editor.getSemicolonCount();
@@ -91,8 +98,10 @@ class _MultiviewWidgetState extends State<MultiViewWidget> {
   }
 
   @override
-  dispose() {
+  void dispose() {
     super.dispose();
+    _pageViewController.dispose();
+    _introTabController.dispose();
   }
 
   @override
@@ -222,6 +231,8 @@ activateTeleporter() //Call when cats are in position''',
               break;
             case 3:
               _setAppStateUnloaded();
+            case 4:
+              _showIntro(context);
             default:
               break;
           }
@@ -754,8 +765,175 @@ activateTeleporter() //Call when cats are in position''',
     );
   }
 
+  void _showIntro(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    var maxBoxHeight = 600.0;
+    var calculatedHeight =
+        min(maxBoxHeight, MediaQuery.of(context).size.height * 0.4);
+    var placeHolderImage = 'assets/ui_images/placeholder.png';
+
+    showDialog(
+      barrierDismissible: true,
+      barrierColor: const Color.fromARGB(168, 120, 120, 120),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.white54,
+                width: 3.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(5))),
+          content: Column(
+            mainAxisSize: MainAxisSize
+                .min, // Make the column only as big as its children need it to be
+            children: <Widget>[
+              // ignore: sized_box_for_whitespace
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
+                // ignore: sized_box_for_whitespace
+                child: Container(
+                  width: 600,
+                  height: calculatedHeight * 0.7,
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: PageView(
+                          controller: _pageViewController,
+                          onPageChanged: _handlePageViewChanged,
+                          children: <Widget>[
+                            Center(
+                              child: Column(
+                                children: <Widget>[
+                                  Text('Cat-rescuing Javascript',
+                                      style: textTheme.titleLarge),
+                                  const SizedBox(height: 10),
+                                  Flexible(
+                                    child: Image.asset(placeHolderImage),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        24.0, 8.0, 24.0, 8.0),
+                                    child: Text(
+                                        '''You need to program the robot to save adorable cats stranded in the spaceship. Your weapon? JavaScript! Write the most efficient code to rescue them all.
+''',
+                                        style: textTheme.bodyMedium),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Center(
+                              child: Column(
+                                children: <Widget>[
+                                  Text('Understanding Your Score',
+                                      style: textTheme.titleLarge),
+                                  const SizedBox(height: 10),
+                                  Flexible(
+                                    child: Image.asset(placeHolderImage),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        24.0, 8.0, 24.0, 8.0),
+                                    child: Text(
+                                        '''Fewer moves, less code, more points! Master the art of efficient coding to boost your score and show off your skills.
+''',
+                                        style: textTheme.bodyMedium),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Center(
+                              child: Column(
+                                children: <Widget>[
+                                  Text('Conquer Stages, Claim Badges',
+                                      style: textTheme.titleLarge),
+                                  const SizedBox(height: 10),
+                                  Flexible(
+                                    child: Image.asset(placeHolderImage),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        24.0, 8.0, 24.0, 8.0),
+                                    child: Text(
+                                        '''After each stage, claim badges to showcase your coding prowess on your Developer Program profile. Share your brilliant solutions on social media and tag Google for Developers to get a chance to be showcased and inspire other players.
+''',
+                                        style: textTheme.bodyMedium),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Center(
+                              child: Column(
+                                children: <Widget>[
+                                  Text('Your Progress, Your Choice',
+                                      style: textTheme.titleLarge),
+                                  const SizedBox(height: 10),
+                                  Flexible(
+                                    child: Image.asset(placeHolderImage),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        24.0, 8.0, 24.0, 8.0),
+                                    child: Text(
+                                        '''We value your privacy and don't store game data. This means refreshing the page may reset your progress, but you can always jump back to your favorite stage!
+''',
+                                        style: textTheme.bodyMedium),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      PageIndicator(
+                        tabController: _introTabController,
+                        onUpdateCurrentPageIndex: _updateCurrentPageIndex,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actionsPadding: const EdgeInsets.fromLTRB(60, 20, 60, 20),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                OutlinedButton(
+                  child: const Text('Play now'),
+                  onPressed: () {
+                    appState.introComplete();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _retry() {
     widget.game.reset();
     _setAppStateUnloaded();
+  }
+
+  void _handlePageViewChanged(int currentPageIndex) {
+    _introTabController.index = currentPageIndex;
+  }
+
+  void _updateCurrentPageIndex(int index) {
+    _introTabController.index = index;
+    _pageViewController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+    );
   }
 }

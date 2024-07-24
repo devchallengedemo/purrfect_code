@@ -15,24 +15,18 @@ limitations under the License.
 import 'package:flutter/material.dart';
 
 class PageIndicator extends StatelessWidget {
-  const PageIndicator({
+  PageIndicator({
     super.key,
     required this.tabController,
-    required this.currentPageIndex,
     required this.onUpdateCurrentPageIndex,
-    required this.isOnDesktopAndWeb,
   });
 
-  final int currentPageIndex;
+  int _currentPageIndex = 0;
   final TabController tabController;
   final void Function(int) onUpdateCurrentPageIndex;
-  final bool isOnDesktopAndWeb;
 
   @override
   Widget build(BuildContext context) {
-    if (!isOnDesktopAndWeb) {
-      return const SizedBox.shrink();
-    }
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
@@ -44,10 +38,11 @@ class PageIndicator extends StatelessWidget {
             splashRadius: 16.0,
             padding: EdgeInsets.zero,
             onPressed: () {
-              if (currentPageIndex == 0) {
+              if (_currentPageIndex == 0) {
                 return;
               }
-              onUpdateCurrentPageIndex(currentPageIndex - 1);
+              _currentPageIndex--;
+              onUpdateCurrentPageIndex(_currentPageIndex);
             },
             icon: const Icon(
               Icons.arrow_left_rounded,
@@ -63,10 +58,11 @@ class PageIndicator extends StatelessWidget {
             splashRadius: 16.0,
             padding: EdgeInsets.zero,
             onPressed: () {
-              if (currentPageIndex == 3) {
+              if (_currentPageIndex == 3) {
                 return;
               }
-              onUpdateCurrentPageIndex(currentPageIndex + 1);
+              _currentPageIndex++;
+              onUpdateCurrentPageIndex(_currentPageIndex);
             },
             icon: const Icon(
               Icons.arrow_right_rounded,
