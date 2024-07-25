@@ -41,6 +41,7 @@ void main() async {
 }
 
 Future<bool> getPlatformState() async {
+  return true;
   var deviceInfoPlugin = DeviceInfoPlugin();
   var deviceData = <String, dynamic>{};
 
