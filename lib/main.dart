@@ -43,6 +43,7 @@ void main() async {
 
 Future<bool> getPlatformState(DeviceInfoPlugin deviceInfo) async {
   var deviceData = <String, dynamic>{};
+  await Future<void>.delayed(const Duration(milliseconds: 100));
 
   try {
     if (kIsWeb) {
