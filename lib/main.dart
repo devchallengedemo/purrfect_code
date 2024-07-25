@@ -24,7 +24,8 @@ import 'src/fallback_app.dart';
 import 'src/log/log.dart';
 
 void main() async {
-  await getPlatformState().then((validPlatform) async {
+  final deviceInfoPlugin = DeviceInfoPlugin();
+  await getPlatformState(deviceInfoPlugin).then((validPlatform) async {
     if (validPlatform) {
       var gameManager = GameManager();
       var gameApi = GameApi(gameManager);
@@ -40,13 +41,12 @@ void main() async {
   });
 }
 
-Future<bool> getPlatformState() async {
-  var deviceInfoPlugin = DeviceInfoPlugin();
+Future<bool> getPlatformState(DeviceInfoPlugin deviceInfo) async {
   var deviceData = <String, dynamic>{};
 
   try {
     if (kIsWeb) {
-      deviceData = _readWebBrowserInfo(await deviceInfoPlugin.webBrowserInfo);
+      deviceData = _readWebBrowserInfo(await deviceInfo.webBrowserInfo);
       for (var item in deviceData.entries) {
         if (item.key.contains('browserName')) {
           if (!item.value.toString().toLowerCase().contains('chrome')) {
