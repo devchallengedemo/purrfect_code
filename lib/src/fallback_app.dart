@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import '/src/fallback/fallback_view.dart';
 
 class Fallback extends StatelessWidget {
-  const Fallback({super.key});
+  Fallback({super.key});
 
   @override
   Widget build(BuildContext context) {

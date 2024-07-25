@@ -35,13 +35,12 @@ void main() async {
       WidgetsFlutterBinding.ensureInitialized();
       runApp(GameApp(gameManager: gameManager, gameApi: gameApi));
     } else {
-      runApp(const Fallback());
+      runApp(Fallback());
     }
   });
 }
 
 Future<bool> getPlatformState() async {
-  return true;
   var deviceInfoPlugin = DeviceInfoPlugin();
   var deviceData = <String, dynamic>{};
 
@@ -51,21 +50,27 @@ Future<bool> getPlatformState() async {
       for (var item in deviceData.entries) {
         if (item.key.contains('browserName')) {
           if (!item.value.toString().toLowerCase().contains('chrome')) {
+            logger.e('browser not chrome');
             return false;
           }
         }
         if (item.key.contains('appVersion')) {
           if (item.value.toString().contains('OS X')) {
+            logger.i('browser on OS X');
             return true;
           } else if (item.value.toString().contains('Windows')) {
+            logger.i('browser on Windows');
             return true;
           } else if (item.value.toString().contains('Linux')) {
+            logger.i('browser on Linux');
             return true;
           }
         }
       }
+      logger.i('browser on not supported');
       return false;
     } else {
+      logger.i('not running on web');
       return false;
     }
   } on PlatformException {
