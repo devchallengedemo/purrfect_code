@@ -24,20 +24,20 @@ import 'src/fallback_app.dart';
 import 'src/log/log.dart';
 
 void main() async {
-  var validPlatform = await getPlatformState();
+  await getPlatformState().then((validPlatform) async {
+    if (validPlatform) {
+      var gameManager = GameManager();
+      var gameApi = GameApi(gameManager);
 
-  if (validPlatform) {
-    var gameManager = GameManager();
-    var gameApi = GameApi(gameManager);
+      await gameApi.initialize();
+      gameApi.buildInterop();
 
-    await gameApi.initialize();
-    gameApi.buildInterop();
-
-    WidgetsFlutterBinding.ensureInitialized();
-    runApp(GameApp(gameManager: gameManager, gameApi: gameApi));
-  } else {
-    runApp(const Fallback());
-  }
+      WidgetsFlutterBinding.ensureInitialized();
+      runApp(GameApp(gameManager: gameManager, gameApi: gameApi));
+    } else {
+      runApp(const Fallback());
+    }
+  });
 }
 
 Future<bool> getPlatformState() async {
