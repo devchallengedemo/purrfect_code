@@ -350,8 +350,8 @@ activateTeleporter() //Call when cats are in position''',
           );
 
     var mainImageAsset = switch (appState.getLevel()) {
-      5 => 'assets/ui_images/purrfect_code_game_victory.png',
-      _ => 'assets/ui_images/purrfect_code_level_victory.png',
+      5 => 'assets/ui_images/Modal_Art_Level_Complete_560x175px.png',
+      _ => 'assets/ui_images/Modal_Art_Game_Victory_Banner_560x175px.png',
     };
 
     var badgeImageAsset = switch (appState.getLevel()) {
@@ -388,10 +388,9 @@ activateTeleporter() //Call when cats are in position''',
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Flexible(
-                fit: FlexFit.tight,
-                child: Image.asset(mainImageAsset),
-              ),
+              const SizedBox(height: 20),
+              Image.asset(mainImageAsset),
+              const SizedBox(height: 20),
               IntrinsicHeight(
                 child: Row(
                   children: <Widget>[
@@ -773,7 +772,10 @@ activateTeleporter() //Call when cats are in position''',
     var maxBoxHeight = 600.0;
     var calculatedHeight =
         min(maxBoxHeight, MediaQuery.of(context).size.height * 0.4);
-    var placeHolderImage = 'assets/ui_images/placeholder.png';
+    var introScreen1 = 'assets/ui_images/Purrfect_Code_Screen_01.png';
+    var introScreen2 = 'assets/ui_images/Purrfect_Code_Screen_02.png';
+    var introScreen3 = 'assets/ui_images/Purrfect_Code_Screen_03.png';
+    var introScreen4 = 'assets/ui_images/Purrfect_Code_Screen_04.png';
 
     showDialog<void>(
       barrierDismissible: true,
@@ -812,7 +814,7 @@ activateTeleporter() //Call when cats are in position''',
                                       style: textTheme.titleLarge),
                                   const SizedBox(height: 10),
                                   Flexible(
-                                    child: Image.asset(placeHolderImage),
+                                    child: Image.asset(introScreen1),
                                   ),
                                   const SizedBox(height: 10),
                                   Padding(
@@ -833,7 +835,7 @@ activateTeleporter() //Call when cats are in position''',
                                       style: textTheme.titleLarge),
                                   const SizedBox(height: 10),
                                   Flexible(
-                                    child: Image.asset(placeHolderImage),
+                                    child: Image.asset(introScreen2),
                                   ),
                                   const SizedBox(height: 10),
                                   Padding(
@@ -854,7 +856,7 @@ activateTeleporter() //Call when cats are in position''',
                                       style: textTheme.titleLarge),
                                   const SizedBox(height: 10),
                                   Flexible(
-                                    child: Image.asset(placeHolderImage),
+                                    child: Image.asset(introScreen3),
                                   ),
                                   const SizedBox(height: 10),
                                   Padding(
@@ -875,7 +877,7 @@ activateTeleporter() //Call when cats are in position''',
                                       style: textTheme.titleLarge),
                                   const SizedBox(height: 10),
                                   Flexible(
-                                    child: Image.asset(placeHolderImage),
+                                    child: Image.asset(introScreen4),
                                   ),
                                   const SizedBox(height: 10),
                                   Padding(
