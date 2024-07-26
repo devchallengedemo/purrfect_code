@@ -42,6 +42,8 @@ void main() async {
 }
 
 Future<bool> getPlatformState(DeviceInfoPlugin deviceInfo) async {
+  return true;
+  /*
   var deviceData = <String, dynamic>{};
   await Future<void>.delayed(const Duration(milliseconds: 100));
 
@@ -78,6 +80,7 @@ Future<bool> getPlatformState(DeviceInfoPlugin deviceInfo) async {
     logger.i('Platform exception');
     return false;
   }
+  */
 }
 
 Map<String, dynamic> _readWebBrowserInfo(WebBrowserInfo data) {
