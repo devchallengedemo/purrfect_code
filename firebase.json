@@ -1,10 +1,46 @@
 {
   "hosting": {
-    "source": ".",
+    "predeploy": "flutter build web --wasm --no-strip-wasm --source-maps",
+    "public": "build/web",
     "ignore": [
       "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+      "**/.*"
+    ],
+    "headers": [
+      {
+        "source": "**/*",
+        "headers": [
+          {
+            "key": "cross-origin-opener-policy",
+            "value": "same-origin"
+          },
+          {
+            "key": "cross-origin-embedder-policy",
+            "value": "require-corp"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "frame-ancestors 'none'"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          }
+        ]
+      },
+      {
+        "source": "/?(\\?*)",
+        "headers": [
+          {
+            "key": "Link",
+            "value": "</assets/FontManifest.json>; rel=preload; as=fetch; crossorigin"
+          }
+        ]
+      }
     ],
     "frameworksBackend": {
       "region": "us-central1"

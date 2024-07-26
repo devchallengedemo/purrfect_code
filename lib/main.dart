@@ -12,20 +12,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import '/src/game_manager/game_manager.dart';
 import 'src/api_module/game_api.dart';
 import 'src/app.dart';
 import 'src/fallback_app.dart';
-import 'src/log/log.dart';
 
 void main() async {
-  final deviceInfoPlugin = DeviceInfoPlugin();
-  await getPlatformState(deviceInfoPlugin).then((validPlatform) async {
+  await getPlatformState().then((validPlatform) async {
     if (validPlatform) {
       var gameManager = GameManager();
       var gameApi = GameApi(gameManager);
@@ -41,15 +35,13 @@ void main() async {
   });
 }
 
-Future<bool> getPlatformState(DeviceInfoPlugin deviceInfo) async {
+Future<bool> getPlatformState() async {
+  //var deviceData = <String, dynamic>{};
   return true;
-  /*
-  var deviceData = <String, dynamic>{};
-  await Future<void>.delayed(const Duration(milliseconds: 100));
-
+/*
   try {
     if (kIsWeb) {
-      deviceData = _readWebBrowserInfo(await deviceInfo.webBrowserInfo);
+      deviceData = _readWebBrowserInfo(await webBrowserInfo());
       for (var item in deviceData.entries) {
         if (item.key.contains('browserName')) {
           if (!item.value.toString().toLowerCase().contains('chrome')) {
@@ -82,8 +74,8 @@ Future<bool> getPlatformState(DeviceInfoPlugin deviceInfo) async {
   }
   */
 }
-
-Map<String, dynamic> _readWebBrowserInfo(WebBrowserInfo data) {
+/*
+Map<String, dynamic> _readWebBrowserInfo(BrowserData data) {
   return <String, dynamic>{
     'browserName': data.browserName.name,
     'appCodeName': data.appCodeName,
@@ -102,3 +94,4 @@ Map<String, dynamic> _readWebBrowserInfo(WebBrowserInfo data) {
     'maxTouchPoints': data.maxTouchPoints,
   };
 }
+*/
