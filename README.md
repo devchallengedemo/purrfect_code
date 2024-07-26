@@ -1,3 +1,5 @@
+[![Dart](https://github.com/devchallengedemo/purrfect_code/actions/workflows/dart.yml/badge.svg)](https://github.com/devchallengedemo/purrfect_code/actions/workflows/dart.yml)
+
 # Purrfect Code
 
 A Sokoban Game you play by coding in JavaScript. Made by Google For Developers.
@@ -16,7 +18,7 @@ To run the game use the launch configuration in VSCode/Android Studio or use the
 $ flutter run -d chrome
 ```
 
-_\*Purrfect Code works best in Chrome
+_Purrfect Code works best in Chrome_
 
 ---
 
