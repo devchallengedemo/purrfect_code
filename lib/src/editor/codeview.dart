@@ -19,7 +19,6 @@ import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'theme.dart';
 
 class CodeView extends StatelessWidget {
-  // ignore: prefer_const_constructors_in_immutables
   CodeView({
     required this.controller,
     required this.scrollController,

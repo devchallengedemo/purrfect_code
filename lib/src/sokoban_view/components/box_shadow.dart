@@ -14,6 +14,7 @@ limitations under the License.
 
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
+
 import '/src/sokoban_view/components/grided.dart';
 
 class BoxShadow extends SpriteAnimationComponent
@@ -46,7 +47,8 @@ class BoxShadow extends SpriteAnimationComponent
 
   @override
   Future<void> onLoad() async {
-    await _loadAnimations().then((_) => {animation = _boxClosed});
+    await _loadAnimations();
+    animation = _boxClosed;
 
     position.add(getPosition());
     priority = getLayeredGridValue();
@@ -105,17 +107,5 @@ class BoxShadow extends SpriteAnimationComponent
       '_boxCloseAnim' => _boxOpenAnim.reversed(),
       _ => _boxClosed
     };
-  }
-
-  void setPosition(Vector2 pos) {
-    position = pos;
-  }
-
-  void setVisibillity(bool viz) {
-    isVisible = viz;
-  }
-
-  void setGridPos(Vector2 gridPos) {
-    gridPosition = gridPos;
   }
 }

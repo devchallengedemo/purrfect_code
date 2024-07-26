@@ -48,7 +48,8 @@ class Battery extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
     _audioPool = await FlameAudio.createPool('battery.mp3', maxPlayers: 2);
-    await _loadAnimations().then((_) => {animation = _idleAnim});
+    await _loadAnimations();
+    animation = _idleAnim;
 
     position.add(getPosition());
   }

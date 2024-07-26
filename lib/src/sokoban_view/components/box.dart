@@ -69,7 +69,8 @@ class Box extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
     _audioPool = await FlameAudio.createPool('catscored.mp3', maxPlayers: 4);
-    await _loadAnimations().then((_) => {animation = _boxClosed});
+    await _loadAnimations();
+    animation = _boxClosed;
 
     position.add(getPosition());
     priority = getLayeredGridValue();
@@ -163,9 +164,9 @@ class Box extends SpriteAnimationComponent
       }
     }
 
-    shadow.setPosition(position);
-    shadow.setVisibillity(isVisible);
-    shadow.setGridPos(gridPosition);
+    shadow.position = position;
+    shadow.isVisible = isVisible;
+    shadow.gridPosition = gridPosition;
   }
 
   void _moveEast() {

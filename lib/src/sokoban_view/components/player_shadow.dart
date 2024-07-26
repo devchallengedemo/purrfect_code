@@ -14,6 +14,7 @@ limitations under the License.
 
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
+
 import '/src/sokoban_view/components/grided.dart';
 
 class PlayerShadow extends SpriteAnimationComponent
@@ -50,7 +51,8 @@ class PlayerShadow extends SpriteAnimationComponent
 
   @override
   Future<void> onLoad() async {
-    await _loadAnimations().then((_) => {animation = _blink1Anim});
+    await _loadAnimations();
+    animation = _blink1Anim;
 
     position.add(getPosition());
   }

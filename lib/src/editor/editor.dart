@@ -14,6 +14,7 @@ limitations under the License.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
+
 import 'codeview.dart';
 
 class CommandEditor extends StatefulWidget {
@@ -27,8 +28,7 @@ class CommandEditor extends StatefulWidget {
   final CodeController controller;
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CommandEditor createState() => _CommandEditor();
+  State<CommandEditor> createState() => _CommandEditor();
 
   String getText() {
     return controller.text;
