@@ -350,8 +350,8 @@ activateTeleporter() //Call when cats are in position''',
           );
 
     var mainImageAsset = switch (appState.getLevel()) {
-      5 => 'assets/ui_images/Modal_Art_Level_Complete_560x175px.png',
-      _ => 'assets/ui_images/Modal_Art_Game_Victory_Banner_560x175px.png',
+      5 => 'assets/ui_images/Modal_Art_Game_Victory_Banner_560x175px.png',
+      _ => 'assets/ui_images/Modal_Art_Level_Complete_560x175px.png',
     };
 
     var badgeImageAsset = switch (appState.getLevel()) {
@@ -771,7 +771,7 @@ activateTeleporter() //Call when cats are in position''',
     final textTheme = Theme.of(context).textTheme;
     var maxBoxHeight = 600.0;
     var calculatedHeight =
-        min(maxBoxHeight, MediaQuery.of(context).size.height * 0.4);
+        min(maxBoxHeight, MediaQuery.of(context).size.height * 0.5);
     var introScreen1 = 'assets/ui_images/Purrfect_Code_Screen_01.png';
     var introScreen2 = 'assets/ui_images/Purrfect_Code_Screen_02.png';
     var introScreen3 = 'assets/ui_images/Purrfect_Code_Screen_03.png';

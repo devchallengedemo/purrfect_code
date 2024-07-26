@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "predeploy": "flutter build web --wasm --no-strip-wasm --source-maps",
+    "predeploy": "flutter build web --wasm --no-strip-wasm",
     "public": "build/web",
     "ignore": [
       "firebase.json",
@@ -41,9 +41,6 @@
           }
         ]
       }
-    ],
-    "frameworksBackend": {
-      "region": "us-central1"
-    }
+    ]
   }
 }
