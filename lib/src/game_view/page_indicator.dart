@@ -14,7 +14,6 @@ limitations under the License.
 
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class PageIndicator extends StatelessWidget {
   PageIndicator({
     super.key,
