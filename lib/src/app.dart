@@ -89,11 +89,12 @@ class _GameAppState extends State<GameApp> {
         deviceData = _readWebBrowserInfo(await deviceInfo.deviceInfo());
         for (var item in deviceData.entries) {
           if (item.key.contains('browserName')) {
-            if (!item.value.toString().toLowerCase().contains('chrome')) {
-              logger.i('browser not chrome');
-            }
+            var browser =
+                deviceInfo.parseUserAgentToBrowserName(item.value.toString());
+            if (browser != BrowserName.chrome) return false;
+            logger.i('browser is Chrome');
           }
-          if (item.key.contains('appVersion')) {
+          if (item.key.contains('userAgent')) {
             if (item.value.toString().contains('OS X')) {
               logger.i('browser on OS X');
               return true;
@@ -116,7 +117,6 @@ class _GameAppState extends State<GameApp> {
 
   Map<String, dynamic> _readWebBrowserInfo(WebBrowserInfo data) {
     return <String, dynamic>{
-      'browserName': data.browserName.name,
       'appCodeName': data.appCodeName,
       'appName': data.appName,
       'appVersion': data.appVersion,

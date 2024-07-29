@@ -24,6 +24,28 @@ class DeviceInfo {
       ),
     );
   }
+
+  BrowserName parseUserAgentToBrowserName(String? userAgent) {
+    if (userAgent == null) {
+      return BrowserName.unknown;
+    } else if (userAgent.contains('Firefox')) {
+      return BrowserName.firefox;
+    } else if (userAgent.contains('SamsungBrowser')) {
+      return BrowserName.samsungInternet;
+    } else if (userAgent.contains('Opera') || userAgent.contains('OPR')) {
+      return BrowserName.opera;
+    } else if (userAgent.contains('Trident')) {
+      return BrowserName.msie;
+    } else if (userAgent.contains('Edg')) {
+      return BrowserName.edge;
+    } else if (userAgent.contains('Chrome')) {
+      return BrowserName.chrome;
+    } else if (userAgent.contains('Safari')) {
+      return BrowserName.safari;
+    } else {
+      return BrowserName.unknown;
+    }
+  }
 }
 
 enum BrowserName {
@@ -53,10 +75,6 @@ class WebBrowserInfo {
     required this.hardwareConcurrency,
   });
 
-  BrowserName get browserName {
-    return _parseUserAgentToBrowserName();
-  }
-
   final String? appCodeName;
   final String? appName;
   final String? appVersion;
@@ -85,28 +103,5 @@ class WebBrowserInfo {
       hardwareConcurrency: map['hardwareConcurrency'] as int,
       maxTouchPoints: map['maxTouchPoints'] as int,
     );
-  }
-
-  BrowserName _parseUserAgentToBrowserName() {
-    final userAgent = this.userAgent;
-    if (userAgent == null) {
-      return BrowserName.unknown;
-    } else if (userAgent.contains('Firefox')) {
-      return BrowserName.firefox;
-    } else if (userAgent.contains('SamsungBrowser')) {
-      return BrowserName.samsungInternet;
-    } else if (userAgent.contains('Opera') || userAgent.contains('OPR')) {
-      return BrowserName.opera;
-    } else if (userAgent.contains('Trident')) {
-      return BrowserName.msie;
-    } else if (userAgent.contains('Edg')) {
-      return BrowserName.edge;
-    } else if (userAgent.contains('Chrome')) {
-      return BrowserName.chrome;
-    } else if (userAgent.contains('Safari')) {
-      return BrowserName.safari;
-    } else {
-      return BrowserName.unknown;
-    }
   }
 }
