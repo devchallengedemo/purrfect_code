@@ -12,6 +12,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -94,8 +96,12 @@ class _GameAppState extends State<GameApp> {
             if (browser != BrowserName.chrome) return false;
             logger.i('browser is Chrome');
           }
-          if (item.key.contains('userAgent')) {
-            return deviceInfo.detectMobileBrowswer(item.value.toString());
+          print(defaultTargetPlatform);
+          if (defaultTargetPlatform == TargetPlatform.iOS ||
+              defaultTargetPlatform == TargetPlatform.android) {
+            return false;
+          } else {
+            return true;
           }
         }
       } else {
