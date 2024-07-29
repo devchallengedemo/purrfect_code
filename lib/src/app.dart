@@ -12,19 +12,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '/src/game_manager/game_manager.dart';
-import '/src/game_view/multi_view_widget.dart';
+import 'api_module/device_info.dart';
 import 'api_module/game_api.dart';
 import 'fallback_app.dart';
+import 'game_manager/game_manager.dart';
+import 'game_view/multi_view_widget.dart';
 import 'game_view/splash_screen.dart';
 import 'log/log.dart';
 
 class GameApp extends StatefulWidget {
-  const GameApp({super.key, required this.gameManager, required this.gameApi});
+  GameApp({
+    super.key,
+    required this.gameManager,
+    required this.gameApi,
+  });
 
   final GameManager gameManager;
   final GameApi gameApi;
@@ -34,59 +38,71 @@ class GameApp extends StatefulWidget {
 }
 
 class _GameAppState extends State<GameApp> {
-  bool platformCheckComplete = false;
+  bool initComplete = false;
   bool validPlatform = false;
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    initPlatformState().then((valid) {
+      setState(() {
+        logger.i('setting state');
+        initComplete = true;
+        validPlatform = valid;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!platformCheckComplete) {
-      return Container();
-    }
-
-    if (validPlatform) {
-      return MaterialApp(
-          theme: ThemeData.dark(useMaterial3: true),
-          initialRoute: '/',
-          routes: {
-            '/': (context) => SplashScreen(),
-            'Z2FtZQ==': (context) =>
-                MultiViewWidget(gameManager: widget.gameManager),
-          });
+    if (!initComplete) {
+      return Container(
+        decoration: BoxDecoration(
+            color: Colors.black,
+            border: Border.all(
+              color: Colors.black,
+            )),
+      );
     } else {
-      return Fallback();
+      if (validPlatform) {
+        return MaterialApp(
+            theme: ThemeData.dark(useMaterial3: true),
+            initialRoute: '/',
+            routes: {
+              '/': (context) => SplashScreen(),
+              'Z2FtZQ==': (context) =>
+                  MultiViewWidget(gameManager: widget.gameManager),
+            });
+      } else {
+        return Fallback();
+      }
     }
   }
 
-  Future<void> initPlatformState() async {
-    var deviceInfoPlugin = DeviceInfoPlugin();
+  Future<bool> initPlatformState() async {
+    logger.i('platform check started');
+    var deviceInfo = DeviceInfo();
     var deviceData = <String, dynamic>{};
-    var valid = false;
 
     try {
       if (kIsWeb) {
-        deviceData = _readWebBrowserInfo(await deviceInfoPlugin.webBrowserInfo);
+        deviceData = _readWebBrowserInfo(await deviceInfo.deviceInfo());
         for (var item in deviceData.entries) {
           if (item.key.contains('browserName')) {
             if (!item.value.toString().toLowerCase().contains('chrome')) {
-              logger.e('browser not chrome');
+              logger.i('browser not chrome');
             }
           }
           if (item.key.contains('appVersion')) {
             if (item.value.toString().contains('OS X')) {
               logger.i('browser on OS X');
-              valid = true;
+              return true;
             } else if (item.value.toString().contains('Windows')) {
               logger.i('browser on Windows');
-              valid = true;
+              return true;
             } else if (item.value.toString().contains('Linux')) {
               logger.i('browser on Linux');
-              valid = true;
+              return true;
             }
           }
         }
@@ -95,10 +111,7 @@ class _GameAppState extends State<GameApp> {
       logger.e('exception hit $e');
     }
 
-    setState(() {
-      platformCheckComplete = true;
-      validPlatform = valid;
-    });
+    return false;
   }
 
   Map<String, dynamic> _readWebBrowserInfo(WebBrowserInfo data) {
@@ -107,9 +120,7 @@ class _GameAppState extends State<GameApp> {
       'appCodeName': data.appCodeName,
       'appName': data.appName,
       'appVersion': data.appVersion,
-      'deviceMemory': data.deviceMemory,
       'language': data.language,
-      'languages': data.languages,
       'platform': data.platform,
       'product': data.product,
       'productSub': data.productSub,
