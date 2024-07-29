@@ -95,18 +95,11 @@ class _GameAppState extends State<GameApp> {
             logger.i('browser is Chrome');
           }
           if (item.key.contains('userAgent')) {
-            if (item.value.toString().contains('OS X')) {
-              logger.i('browser on OS X');
-              return true;
-            } else if (item.value.toString().contains('Windows')) {
-              logger.i('browser on Windows');
-              return true;
-            } else if (item.value.toString().contains('Linux')) {
-              logger.i('browser on Linux');
-              return true;
-            }
+            return deviceInfo.detectMobileBrowswer(item.value.toString());
           }
         }
+      } else {
+        return false;
       }
     } catch (e) {
       logger.e('exception hit $e');
