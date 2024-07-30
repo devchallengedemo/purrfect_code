@@ -859,7 +859,7 @@ activateTeleporter() //Call when cats are in position''',
                                     padding: const EdgeInsets.fromLTRB(
                                         24.0, 8.0, 24.0, 8.0),
                                     child: Text(
-                                        '''After each stage, claim badges to showcase your coding prowess on your Developer Program profile. Share your brilliant solutions on social media and tag Google for Developers to get a chance to be showcased and inspire other players.
+                                        '''Earn badges and show off your coding skills on your Developer Program profile. Share your solutions with Google for Developers for a chance to be featured!
 ''',
                                         style: textTheme.bodyMedium),
                                   ),
