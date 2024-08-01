@@ -341,8 +341,8 @@ class _ThreeItemViewState extends State<MultiView>
                         overflow: TextOverflow.visible,
                         softWrap: false,
                       ),
-                      onPressed: () => launchUrl(
-                          Uri.parse('https://developers.google.com/')),
+                      onPressed: () => launchUrl(Uri.parse(
+                          'https://developers.googleblog.com/how-we-built-purrfect-code')),
                     ),
                   ),
                 ),
