@@ -388,7 +388,10 @@ activateTeleporter() //Call when cats are in position''',
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const SizedBox(height: 20),
-              Image.asset(mainImageAsset),
+              Flexible(
+                fit: FlexFit.tight,
+                child: Image.asset(mainImageAsset),
+              ),
               const SizedBox(height: 20),
               IntrinsicHeight(
                 child: Row(
@@ -768,8 +771,8 @@ activateTeleporter() //Call when cats are in position''',
   void _showIntro(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     var maxBoxHeight = 600.0;
-    var calculatedHeight =
-        min(maxBoxHeight, MediaQuery.of(context).size.height * 0.5);
+    var boxHeight = MediaQuery.of(context).size.height * 0.5;
+    var calculatedHeight = min(maxBoxHeight, boxHeight);
     var introScreen1 = 'assets/ui_images/Purrfect_Code_Screen_01.png';
     var introScreen2 = 'assets/ui_images/Purrfect_Code_Screen_02.png';
     var introScreen3 = 'assets/ui_images/Purrfect_Code_Screen_03.png';
@@ -792,13 +795,13 @@ activateTeleporter() //Call when cats are in position''',
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
+                padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
                 child: Container(
                   width: 600,
-                  height: calculatedHeight * 0.7,
+                  height: calculatedHeight,
                   child: Column(
                     children: <Widget>[
-                      Expanded(
+                      Flexible(
                         child: PageView(
                           controller: _pageViewController,
                           onPageChanged: _handlePageViewChanged,
@@ -808,14 +811,15 @@ activateTeleporter() //Call when cats are in position''',
                                 children: <Widget>[
                                   Text('Cat-rescuing Javascript',
                                       style: textTheme.titleLarge),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 20),
                                   Flexible(
+                                    fit: FlexFit.tight,
+                                    flex: 2,
                                     child: Image.asset(introScreen1),
                                   ),
-                                  const SizedBox(height: 10),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
-                                        24.0, 8.0, 24.0, 8.0),
+                                        24.0, 20.0, 24.0, 8.0),
                                     child: Text(
                                         '''You need to program the robot to save adorable cats stranded in the spaceship. Your weapon? JavaScript! Write the most efficient code to rescue them all.
 ''',
@@ -829,14 +833,15 @@ activateTeleporter() //Call when cats are in position''',
                                 children: <Widget>[
                                   Text('Understanding Your Score',
                                       style: textTheme.titleLarge),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 20),
                                   Flexible(
+                                    fit: FlexFit.tight,
+                                    flex: 2,
                                     child: Image.asset(introScreen2),
                                   ),
-                                  const SizedBox(height: 10),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
-                                        24.0, 8.0, 24.0, 8.0),
+                                        24.0, 20.0, 24.0, 8.0),
                                     child: Text(
                                         '''Fewer moves, less code, more points! Master the art of efficient coding to boost your score and show off your skills.
 ''',
@@ -850,14 +855,15 @@ activateTeleporter() //Call when cats are in position''',
                                 children: <Widget>[
                                   Text('Conquer Stages, Claim Badges',
                                       style: textTheme.titleLarge),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 20),
                                   Flexible(
+                                    fit: FlexFit.tight,
+                                    flex: 2,
                                     child: Image.asset(introScreen3),
                                   ),
-                                  const SizedBox(height: 10),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
-                                        24.0, 8.0, 24.0, 8.0),
+                                        24.0, 20.0, 24.0, 8.0),
                                     child: Text(
                                         '''Earn badges and show off your coding skills on your Developer Program profile. Share your solutions with Google for Developers for a chance to be featured!
 ''',
@@ -871,14 +877,15 @@ activateTeleporter() //Call when cats are in position''',
                                 children: <Widget>[
                                   Text('Your Progress, Your Choice',
                                       style: textTheme.titleLarge),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 20),
                                   Flexible(
+                                    fit: FlexFit.tight,
+                                    flex: 2,
                                     child: Image.asset(introScreen4),
                                   ),
-                                  const SizedBox(height: 10),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
-                                        24.0, 8.0, 24.0, 8.0),
+                                        24.0, 20.0, 24.0, 8.0),
                                     child: Text(
                                         '''We value your privacy and don't store game data. This means refreshing the page may reset your progress, but you can always jump back to your favorite stage!
 ''',
@@ -900,7 +907,7 @@ activateTeleporter() //Call when cats are in position''',
               ),
             ],
           ),
-          actionsPadding: const EdgeInsets.fromLTRB(60, 20, 60, 20),
+          actionsPadding: const EdgeInsets.fromLTRB(60, 0, 60, 20),
           actions: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
