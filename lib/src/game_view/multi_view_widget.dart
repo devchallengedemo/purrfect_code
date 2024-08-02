@@ -387,18 +387,23 @@ activateTeleporter() //Call when cats are in position''',
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Flexible(
-                fit: FlexFit.tight,
-                child: Image.asset(mainImageAsset),
+                child: ConstrainedBox(
+                  constraints:
+                      const BoxConstraints(maxWidth: 575, maxHeight: 175),
+                  child: Image.asset(mainImageAsset),
+                ),
               ),
-              const SizedBox(height: 20),
-              IntrinsicHeight(
+              const SizedBox(height: 10),
+              ConstrainedBox(
+                constraints:
+                    const BoxConstraints(minHeight: 225.0, maxHeight: 250.0),
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      flex: 1,
                       child: Column(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -535,7 +540,6 @@ activateTeleporter() //Call when cats are in position''',
                       color: Colors.white24,
                     ),
                     Expanded(
-                      flex: 1,
                       child: Column(
                         children: [
                           Container(
