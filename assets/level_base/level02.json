@@ -6,8 +6,8 @@
         "playerStartX": 3,
         "playerStartY": 10,
         "threeStars": 70,
-        "twoStars":35,
-        "oneStar":0
+        "twoStars":64,
+        "oneStar":48
     },
     "levelArray": {
         "tiles": [

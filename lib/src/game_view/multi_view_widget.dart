@@ -81,7 +81,7 @@ class _MultiviewWidgetState extends State<MultiViewWidget>
       var braces = widget.editor.getBracesCount();
       var batteries = widget.gameManager.player!.getBatteryCount();
       var score =
-          100 - (semicolons * 2) - (braces * 2) - steps + (batteries * 5);
+          100 - (semicolons * 3) - (braces * 2) - steps + (batteries * 5);
       var stars = 0;
       if (score > thresholds.oneStar) stars++;
       if (score > thresholds.twoStars) stars++;
@@ -483,13 +483,13 @@ activateTeleporter() //Call when cats are in position''',
                                     const TableCell(
                                       child: Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text('Semicolons used:'),
+                                        child: Text('Braces used:'),
                                       ),
                                     ),
                                     TableCell(
                                       child: Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text('$semicolons x -2'),
+                                        child: Text('$braces x -2'),
                                       ),
                                     ),
                                   ],
@@ -499,13 +499,13 @@ activateTeleporter() //Call when cats are in position''',
                                     const TableCell(
                                       child: Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text('Braces used:'),
+                                        child: Text('Semicolons used:'),
                                       ),
                                     ),
                                     TableCell(
                                       child: Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text('$braces x -2'),
+                                        child: Text('$semicolons x -3'),
                                       ),
                                     ),
                                   ],
@@ -782,6 +782,38 @@ activateTeleporter() //Call when cats are in position''',
     var introScreen3 = 'assets/ui_images/Purrfect_Code_Screen_03.png';
     var introScreen4 = 'assets/ui_images/Purrfect_Code_Screen_04.png';
 
+    var imgContainer1 = calculatedHeight > 300.0
+        ? Flexible(
+            fit: FlexFit.tight,
+            flex: 2,
+            child: Image.asset(introScreen1),
+          )
+        : Container();
+
+    var imgContainer2 = calculatedHeight > 300.0
+        ? Flexible(
+            fit: FlexFit.tight,
+            flex: 2,
+            child: Image.asset(introScreen2),
+          )
+        : Container();
+
+    var imgContainer3 = calculatedHeight > 300.0
+        ? Flexible(
+            fit: FlexFit.tight,
+            flex: 2,
+            child: Image.asset(introScreen3),
+          )
+        : Container();
+
+    var imgContainer4 = calculatedHeight > 300.0
+        ? Flexible(
+            fit: FlexFit.tight,
+            flex: 2,
+            child: Image.asset(introScreen4),
+          )
+        : Container();
+
     showDialog<void>(
       barrierDismissible: true,
       barrierColor: const Color.fromARGB(168, 120, 120, 120),
@@ -813,14 +845,10 @@ activateTeleporter() //Call when cats are in position''',
                             Center(
                               child: Column(
                                 children: <Widget>[
-                                  Text('Cat-rescuing Javascript',
+                                  Text('📦 Cat-rescuing Javascript 😼',
                                       style: textTheme.titleLarge),
                                   const SizedBox(height: 20),
-                                  Flexible(
-                                    fit: FlexFit.tight,
-                                    flex: 2,
-                                    child: Image.asset(introScreen1),
-                                  ),
+                                  imgContainer1,
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         24.0, 20.0, 24.0, 8.0),
@@ -835,14 +863,10 @@ activateTeleporter() //Call when cats are in position''',
                             Center(
                               child: Column(
                                 children: <Widget>[
-                                  Text('Understanding Your Score',
+                                  Text('⭐ Understanding Your Score ⭐',
                                       style: textTheme.titleLarge),
                                   const SizedBox(height: 20),
-                                  Flexible(
-                                    fit: FlexFit.tight,
-                                    flex: 2,
-                                    child: Image.asset(introScreen2),
-                                  ),
+                                  imgContainer2,
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         24.0, 20.0, 24.0, 8.0),
@@ -857,14 +881,11 @@ activateTeleporter() //Call when cats are in position''',
                             Center(
                               child: Column(
                                 children: <Widget>[
-                                  Text('Conquer Stages, Claim Badges',
+                                  Text(
+                                      '👩🏽‍💻 Conquer Stages, Claim Badges 🏅',
                                       style: textTheme.titleLarge),
                                   const SizedBox(height: 20),
-                                  Flexible(
-                                    fit: FlexFit.tight,
-                                    flex: 2,
-                                    child: Image.asset(introScreen3),
-                                  ),
+                                  imgContainer3,
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         24.0, 20.0, 24.0, 8.0),
@@ -879,14 +900,10 @@ activateTeleporter() //Call when cats are in position''',
                             Center(
                               child: Column(
                                 children: <Widget>[
-                                  Text('Your Progress, Your Choice',
+                                  Text('🚨 Your Progress, Your Choice ✅',
                                       style: textTheme.titleLarge),
                                   const SizedBox(height: 20),
-                                  Flexible(
-                                    fit: FlexFit.tight,
-                                    flex: 2,
-                                    child: Image.asset(introScreen4),
-                                  ),
+                                  imgContainer4,
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         24.0, 20.0, 24.0, 8.0),
