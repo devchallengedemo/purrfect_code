@@ -26,46 +26,56 @@ class PageIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          IconButton(
-            splashRadius: 16.0,
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              if (tabController.index == 0) {
-                return;
-              }
-              tabController.index = tabController.index - 1;
-            },
-            icon: const Icon(
-              Icons.arrow_left_rounded,
-              size: 32.0,
+    return StatefulBuilder(builder: (context, setState) {
+      // Make the back button callback null if we're on the first tab
+      var previousCallback = tabController.index == 0
+          ? null
+          : () {
+              setState(() {
+                tabController.index--;
+              });
+            };
+
+      // Make the forward button callback null if we're on the last tab
+      var nextCallback = tabController.index == (tabController.length - 1)
+          ? null
+          : () {
+              setState(() {
+                tabController.index++;
+              });
+            };
+
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            IconButton(
+              splashRadius: 16.0,
+              padding: EdgeInsets.zero,
+              onPressed: previousCallback,
+              icon: const Icon(
+                Icons.arrow_left_rounded,
+                size: 32.0,
+              ),
             ),
-          ),
-          TabPageSelector(
-            controller: tabController,
-            color: colorScheme.surface,
-            selectedColor: colorScheme.primary,
-          ),
-          IconButton(
-            splashRadius: 16.0,
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              if (tabController.index == (tabController.length - 1)) {
-                return;
-              }
-              tabController.index = tabController.index + 1;
-            },
-            icon: const Icon(
-              Icons.arrow_right_rounded,
-              size: 32.0,
+            TabPageSelector(
+              controller: tabController,
+              color: colorScheme.surface,
+              selectedColor: colorScheme.primary,
             ),
-          ),
-        ],
-      ),
-    );
+            IconButton(
+              splashRadius: 16.0,
+              padding: EdgeInsets.zero,
+              onPressed: nextCallback,
+              icon: const Icon(
+                Icons.arrow_right_rounded,
+                size: 32.0,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
