@@ -83,9 +83,9 @@ class _MultiviewWidgetState extends State<MultiViewWidget>
       var score =
           100 - (semicolons * 3) - (braces * 2) - steps + (batteries * 5);
       var stars = 0;
-      if (score > thresholds.oneStar) stars++;
-      if (score > thresholds.twoStars) stars++;
-      if (score > thresholds.threeStars) stars++;
+      if (score >= thresholds.oneStar) stars++;
+      if (score >= thresholds.twoStars) stars++;
+      if (score >= thresholds.threeStars) stars++;
 
       if (value.contains('victory')) {
         _showVictoryModal(
