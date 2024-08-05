@@ -12,12 +12,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
-import '../log/log.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({super.key});
@@ -26,8 +23,6 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    var widthOffset = width * 0.66;
     var heightOffset = height * 0.6;
     var maxBoxHeight = 280.0;
     var calculatedHeight =
