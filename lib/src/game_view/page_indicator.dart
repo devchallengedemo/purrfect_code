@@ -18,11 +18,9 @@ class PageIndicator extends StatelessWidget {
   PageIndicator({
     super.key,
     required this.tabController,
-    required this.onUpdateCurrentPageIndex,
   });
 
   final TabController tabController;
-  final void Function(int) onUpdateCurrentPageIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +38,7 @@ class PageIndicator extends StatelessWidget {
               if (tabController.index == 0) {
                 return;
               }
-              onUpdateCurrentPageIndex(tabController.index - 1);
+              tabController.index = tabController.index - 1;
             },
             icon: const Icon(
               Icons.arrow_left_rounded,
@@ -56,10 +54,10 @@ class PageIndicator extends StatelessWidget {
             splashRadius: 16.0,
             padding: EdgeInsets.zero,
             onPressed: () {
-              if (tabController.index == 3) {
+              if (tabController.index == (tabController.length - 1)) {
                 return;
               }
-              onUpdateCurrentPageIndex(tabController.index + 1);
+              tabController.index = tabController.index + 1;
             },
             icon: const Icon(
               Icons.arrow_right_rounded,
