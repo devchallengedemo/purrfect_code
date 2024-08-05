@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var widthOffset = width * 0.66;
-    var heightOffset = height * 0.5;
+    var heightOffset = height * 0.6;
     var maxBoxHeight = 280.0;
     var calculatedHeight =
         min(maxBoxHeight, MediaQuery.of(context).size.height * 0.3);
@@ -47,20 +47,6 @@ class SplashScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: heightOffset),
-            Container(
-              width: min(widthOffset, 500),
-              height: 40,
-              color: Colors.black54,
-              child: TextField(
-                controller: textController,
-                autocorrect: false,
-                enableSuggestions: false,
-                decoration: const InputDecoration(
-                  labelText: 'Enter Password',
-                ),
-                obscureText: true,
-              ),
-            ),
             const SizedBox(height: 40),
             Container(
               width: 500,
@@ -110,8 +96,7 @@ class SplashScreen extends StatelessWidget {
                       }),
                     ),
                     onPressed: () {
-                      //Navigator.pushNamed(context, 'game');
-                      _validatePassword(textController.text, context);
+                      Navigator.pushNamed(context, 'game');
                     },
                     child: const Text(
                         style: TextStyle(
@@ -127,37 +112,5 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _validatePassword(String text, BuildContext context) {
-    final str = utf8.decode(base64.decode('OXFlaWJFS3JzVlZMMmppeWFpWWI='));
-    logger.i('decoded string= $str, password= $text');
-    if (text == str) {
-      Navigator.pushNamed(context, 'Z2FtZQ==');
-    } else {
-      showDialog<void>(
-        barrierColor: const Color.fromARGB(168, 120, 120, 120),
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: const RoundedRectangleBorder(
-                side: BorderSide(
-                  color: Colors.white54,
-                  width: 3.0,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            title: const Text('Invalid Password'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Retry'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
   }
 }

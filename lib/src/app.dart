@@ -70,7 +70,7 @@ class _GameAppState extends State<GameApp> {
             initialRoute: '/',
             routes: {
               '/': (context) => SplashScreen(),
-              'Z2FtZQ==': (context) =>
+              'game': (context) =>
                   MultiViewWidget(gameManager: widget.gameManager),
             });
       } else {
