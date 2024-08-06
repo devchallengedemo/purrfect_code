@@ -74,7 +74,8 @@ class _MultiviewWidgetState extends State<MultiViewWidget>
   void initState() {
     super.initState();
     _pageViewController = PageController();
-    _introTabController = TabController(length: 4, vsync: this);
+    _introTabController = TabController(length: 4, vsync: this)
+      ..addListener(_updateCurrentPageIndex);
     widget.game = SokobanGame((value) {
       var steps = widget.gameManager.steps;
       var braces = widget.editor.getBracesCount();
@@ -940,7 +941,6 @@ activateTeleporter() //Call when cats are in position''',
                       ),
                       PageIndicator(
                         tabController: _introTabController,
-                        onUpdateCurrentPageIndex: _updateCurrentPageIndex,
                       ),
                     ],
                   ),
@@ -977,10 +977,9 @@ activateTeleporter() //Call when cats are in position''',
     _introTabController.index = currentPageIndex;
   }
 
-  void _updateCurrentPageIndex(int index) {
-    _introTabController.index = index;
+  void _updateCurrentPageIndex() {
     _pageViewController.animateToPage(
-      index,
+      _introTabController.index,
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
     );
