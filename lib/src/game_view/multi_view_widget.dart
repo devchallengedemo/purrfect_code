@@ -891,7 +891,7 @@ activateTeleporter() //Call when cats are in position''',
                                     padding: const EdgeInsets.fromLTRB(
                                         24.0, 20.0, 24.0, 8.0),
                                     child: Text(
-                                        '''Fewer moves, less code, more points! Master the art of efficient coding to boost your score and show off your skills.
+                                        '''Fewer moves, lines, braces, and semicolons = more points! Focus on efficient coding to boost your score and show off your skills.
 ''',
                                         style: textTheme.bodyMedium),
                                   ),
