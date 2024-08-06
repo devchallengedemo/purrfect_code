@@ -42,6 +42,10 @@ class CommandEditor extends StatefulWidget {
     controller.text = txt;
   }
 
+  int getNewlineCount() {
+    return '\n'.allMatches(controller.text).length;
+  }
+
   int getSemicolonCount() {
     return ';'.allMatches(controller.text).length;
   }

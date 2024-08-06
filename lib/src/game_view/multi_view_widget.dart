@@ -77,19 +77,23 @@ class _MultiviewWidgetState extends State<MultiViewWidget>
     _introTabController = TabController(length: 4, vsync: this);
     widget.game = SokobanGame((value) {
       var steps = widget.gameManager.steps;
-      var semicolons = widget.editor.getSemicolonCount();
       var braces = widget.editor.getBracesCount();
+      var semicolons = widget.editor.getSemicolonCount();
+      var newlines = widget.editor.getNewlineCount();
       var batteries = widget.gameManager.player!.getBatteryCount();
-      var score =
-          100 - (semicolons * 3) - (braces * 2) - steps + (batteries * 5);
-      var stars = 0;
-      if (score >= thresholds.oneStar) stars++;
+      var score = 100 -
+          (semicolons * 3) -
+          (newlines * 3) -
+          (braces * 2) -
+          steps +
+          (batteries * 5);
+      var stars = 1;
       if (score >= thresholds.twoStars) stars++;
       if (score >= thresholds.threeStars) stars++;
 
       if (value.contains('victory')) {
-        _showVictoryModal(
-            context, stars, score, steps, semicolons, braces, batteries);
+        _showVictoryModal(context, stars, score, steps, semicolons, newlines,
+            braces, batteries);
       } else {
         _showFailureModal(context);
       }
@@ -293,7 +297,7 @@ activateTeleporter() //Call when cats are in position''',
   }
 
   void _showVictoryModal(BuildContext context, int stars, int score, int steps,
-      int semicolons, int braces, int batteries) {
+      int semicolons, int newlines, int braces, int batteries) {
     _setAppStateLoaded();
 
     var prevButton = appState.getLevel() == 1
@@ -506,6 +510,22 @@ activateTeleporter() //Call when cats are in position''',
                                       child: Align(
                                         alignment: Alignment.centerRight,
                                         child: Text('$semicolons x -3'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: <Widget>[
+                                    const TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text('Total lines used:'),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text('$newlines x -3'),
                                       ),
                                     ),
                                   ],
